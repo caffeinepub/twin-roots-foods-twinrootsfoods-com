@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Premium, export-focused eCommerce website for Twin Roots Foods (twinrootsfoods.com), an Indian agricultural export brand selling spices, dry fruits, and dehydrated powders to international and wholesale buyers, with a natural earthy visual identity and farm-to-global story.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Wide hero banner showing Indian farmland transitioning to global export/trade mood with premium natural food styling (hero-banner.dim_1600x600.png)\n- Square brand logo mark with earthy green/brown palette, premium natural export brand feel (logo.dim_512x512.png)\n- Natural product assortment photo-style image featuring spices, dry fruits, and dehydrated powders on earthy background (home-products-collage.dim_1600x900.png)\n- Farmer harvesting crops in an Indian field, warm natural lighting, premium documentary photo style (home-farmers.dim_1600x900.png)\n- Clean hygienic food processing unit interior, stainless steel, food-grade environment, premium realistic photo style (home-processing-unit.dim_1600x900.png)\n- Set of simple monochrome/earthy placeholder certification logos in a consistent style (certifications-strip.dim_1400x220.png)\n\n## Edit Images\n- Update brand styling to Twin Roots Foods (logo.dim_512x512.png > logo.dim_512x512.png)\n- Update hero banner to match farm-to-global export theme (hero-banner.dim_1600x600.png > hero-banner.dim_1600x600.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-an-initial-product-catalog-containing-the-user-provided-items-and-categories-spices-turmeric-powder-dhaniya-coriander-powder-chili-powder-powders-onion-powder-ginger-powder-garlic-powder-tomato-powder-moringa-powder-and-dry-fruits-generic-category-dry-fruits-that-can-contain-multiple-items-each-product-must-have-at-least-name-category-short-description-and-an-optional-price-for-items-that-are-sold-online",
+      "title": "Create an initial product catalog containing the user-provided items and categories: Spices (Turmeric powder, Dhaniya/Coriander powder, Chili powder), Powders (Onion powder, Ginger powder, Garlic powder, Tomato powder, Moringa powder), and Dry fruits (generic category \"Dry Fruits\" that can contain multiple items). Each product must have at least: name, category, short description, and an optional price (for items that are sold online).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-storefront-ui-with-core-pages-sections-home-overview-key-categories-shop-product-list-with-category-filter-product-detail-product-info-add-to-cart-cart-editable-quantities-remove-items-and-checkout-collect-buyer-contact-shipping-address-optional-notes",
+      "title": "Implement a storefront UI with core pages/sections: Home (overview + key categories), Shop (product list with category filter), Product Detail (product info + add-to-cart), Cart (editable quantities + remove items), and Checkout (collect buyer contact + shipping address + optional notes).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-order-placement-for-online-sales-submitting-checkout-creates-an-order-in-the-backend-containing-line-items-productid-name-snapshot-unit-price-snapshot-if-present-quantity-customer-contact-details-shipping-address-status-e-g-pending-and-timestamps-return-an-order-confirmation-with-a-readable-order-id",
+      "title": "Add order placement for online sales: submitting checkout creates an Order in the backend containing line items (productId, name snapshot, unit price snapshot if present, quantity), customer contact details, shipping address, status (e.g., Pending), and timestamps. Return an order confirmation with a readable Order ID.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-export-inquiry-feature-for-bulk-export-requests-a-dedicated-page-section-with-a-form-company-name-contact-person-email-phone-destination-country-products-of-interest-estimated-quantity-message-submitting-the-form-stores-an-inquiry-record-in-the-backend-and-shows-a-confirmation-message",
+      "title": "Add an Export Inquiry feature for bulk/export requests: a dedicated page/section with a form (company name, contact person, email, phone, destination country, products of interest, estimated quantity, message). Submitting the form stores an Inquiry record in the backend and shows a confirmation message.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-simple-internal-management-view-for-the-site-owner-to-review-submitted-orders-and-export-inquiries-read-only-list-detail-this-view-does-not-require-external-authentication-integrations-it-can-be-gated-behind-a-basic-owner-mode-toggle-stored-locally-for-initial-build",
+      "title": "Provide a simple internal management view for the site owner to review submitted Orders and Export Inquiries (read-only list + detail). This view does not require external authentication integrations; it can be gated behind a basic “Owner mode” toggle stored locally for initial build.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-define-and-apply-a-coherent-visual-theme-for-an-export-specialty-foods-storefront-colors-typography-layout-component-styling-and-enforce-it-consistently-across-all-pages-avoid-blue-purple-as-primary-brand-colors",
+      "title": "Define and apply a coherent visual theme for an export + specialty foods storefront (colors, typography, layout, component styling) and enforce it consistently across all pages. Avoid blue/purple as primary brand colors.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-basic-static-brand-assets-logo-and-a-hero-banner-image-and-render-them-in-the-ui-as-static-assets-under-frontend-public-assets-generated",
+      "title": "Generate and include basic static brand assets (logo and a hero/banner image) and render them in the UI as static assets under frontend/public/assets/generated.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-optional-per-product-process-picture-reference-to-the-product-model-and-ensure-the-initial-catalog-includes-a-process-picture-for-every-existing-catalog-product-spices-powders-including-onion-powder-and-dry-fruits",
+      "title": "Add an optional per-product \"process picture\" reference to the product model and ensure the initial catalog includes a process picture for every existing catalog product (Spices, Powders including Onion Powder, and Dry Fruits).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-each-product-s-process-picture-in-the-ui-show-a-thumbnail-preview-on-product-cards-in-the-shop-grid-and-show-a-larger-image-on-the-product-detail-page-replacing-the-current-placeholder-graphic-area",
+      "title": "Display each product’s process picture in the UI: show a thumbnail/preview on product cards in the Shop grid and show a larger image on the Product Detail page (replacing the current placeholder graphic area).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-store-all-process-pictures-as-static-assets-under-frontend-public-assets-generated-and-reference-them-from-the-ui-using-their-filenames-paths-do-not-serve-images-via-the-backend",
+      "title": "Store all process pictures as static assets under frontend/public/assets/generated and reference them from the UI using their filenames/paths (do not serve images via the backend).",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-site-wide-branding-to-twin-roots-foods-twinrootsfoods-com-by-replacing-the-current-generic-brand-name-in-the-header-and-footer-while-keeping-existing-navigation-and-e-commerce-flows-intact",
+      "title": "Update the site-wide branding to “Twin Roots Foods” (twinrootsfoods.com) by replacing the current generic brand name in the header and footer, while keeping existing navigation and e-commerce flows intact.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revise-the-home-page-hero-section-to-match-the-export-focused-positioning-including-updating-the-hero-headline-to-exactly-from-indian-farms-to-global-tables-and-updating-supporting-copy-to-emphasize-premium-natural-trustworthy-export-supply-for-international-buyers-and-wholesale",
+      "title": "Revise the Home page hero section to match the export-focused positioning, including updating the hero headline to exactly: “From Indian Farms to Global Tables”, and updating supporting copy to emphasize premium, natural, trustworthy export supply for international buyers and wholesale.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-replace-home-page-sections-to-include-in-order-after-the-hero-our-products-about-us-two-brothers-farm-to-global-export-story-why-choose-us-certifications-bulk-inquiry-form-and-contact-including-a-whatsapp-button-use-english-for-all-user-facing-text-and-keep-the-overall-layout-premium-natural-and-trustworthy-with-earthy-styling",
+      "title": "Add/replace Home page sections to include, in order after the hero: Our Products, About Us (two brothers, farm-to-global export story), Why Choose Us, Certifications, Bulk Inquiry Form, and Contact (including a WhatsApp button). Use English for all user-facing text and keep the overall layout premium, natural, and trustworthy with earthy styling.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-premium-export-appropriate-visuals-across-the-home-page-sections-using-static-generated-assets-include-natural-product-imagery-a-farmer-harvest-image-and-a-hygienic-processing-unit-image-ensure-these-images-are-used-in-relevant-sections-hero-story-quality-and-are-responsive-with-appropriate-alt-text-in-english",
+      "title": "Integrate premium, export-appropriate visuals across the Home page sections using static generated assets: include natural product imagery, a farmer/harvest image, and a hygienic processing unit image. Ensure these images are used in relevant sections (hero/story/quality) and are responsive with appropriate alt text in English.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-whatsapp-contact-entry-point-that-is-easily-discoverable-include-a-whatsapp-button-in-the-contact-section-and-optionally-in-the-site-header-footer-as-a-secondary-contact-action-without-removing-existing-navigation-items",
+      "title": "Add a WhatsApp contact entry point that is easily discoverable: include a WhatsApp button in the Contact section and optionally in the site header/footer as a secondary contact action, without removing existing navigation items.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Build an export + online sales website (e-commerce) for spices/powders and dry fruits",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add product catalog for listed items (Turmeric powder, Dhaniya/Coriander, Chili powder, dry fruits, Onion powder, Ginger powder, Garlic powder, Tomato powder, Moringa powder)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Add product \"process\" pictures (processing/production images) for Onion powder and all products in the catalog",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add export-focused homepage sections: Hero tagline, Our Products, About Us (two brothers, farm-to-global story), Why Choose Us, Certifications, Bulk Inquiry Form, and Contact with WhatsApp button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Apply premium, natural, trustworthy UI theme using earthy colors (green/brown) and export-grade presentation for international buyers",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add/curate high-quality visuals across the site: natural product images plus farmer/harvesting images and hygienic processing unit images",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add Certifications section with placeholder logos (e.g., FSSAI/APEDA/ISO/HACCP/Organic placeholders)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Twin Roots Foods (twinrootsfoods.com)",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

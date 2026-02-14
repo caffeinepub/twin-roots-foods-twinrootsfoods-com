@@ -1,0 +1,109 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-14T21:33:28.095Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 5,
+    "implemented": 5,
+    "items": [
+      {
+        "id": "REQ-11",
+        "summary": "Update the site-wide branding to “Twin Roots Foods” (twinrootsfoods.com) by replacing the current generic brand name in the header and footer, while keeping existing navigation and e-commerce flows intact.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Revise the Home page hero section to match the export-focused positioning, including updating the hero headline to exactly: “From Indian Farms to Global Tables”, and updating supporting copy to emphasize premium, natural, trustworthy export supply for international buyers and wholesale.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Add/replace Home page sections to include, in order after the hero: Our Products, About Us (two brothers, farm-to-global export story), Why Choose Us, Certifications, Bulk Inquiry Form, and Contact (including a WhatsApp button). Use English for all user-facing text and keep the overall layout premium, natural, and trustworthy with earthy styling.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ExportInquiryForm.tsx",
+          "frontend/src/pages/ExportInquiryPage.tsx",
+          "frontend/src/pages/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ExportInquiryForm.tsx",
+          "frontend/src/pages/ExportInquiryPage.tsx",
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Integrate premium, export-appropriate visuals across the Home page sections using static generated assets: include natural product imagery, a farmer/harvest image, and a hygienic processing unit image. Ensure these images are used in relevant sections (hero/story/quality) and are responsive with appropriate alt text in English.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/home-products-collage.dim_1600x900.png",
+          "frontend/public/assets/generated/home-farmers.dim_1600x900.png",
+          "frontend/public/assets/generated/home-processing-unit.dim_1600x900.png",
+          "frontend/public/assets/generated/certifications-strip.dim_1400x220.png",
+          "frontend/src/pages/HomePage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/home-products-collage.dim_1600x900.png",
+          "frontend/public/assets/generated/home-farmers.dim_1600x900.png",
+          "frontend/public/assets/generated/home-processing-unit.dim_1600x900.png",
+          "frontend/public/assets/generated/certifications-strip.dim_1400x220.png",
+          "frontend/src/pages/HomePage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-15",
+        "summary": "Add a WhatsApp contact entry point that is easily discoverable: include a WhatsApp button in the Contact section and optionally in the site header/footer as a secondary contact action, without removing existing navigation items.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/HomePage.tsx",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/certifications-strip.dim_1400x220.png",
+    "frontend/public/assets/generated/hero-banner.dim_1600x600.png",
+    "frontend/public/assets/generated/home-farmers.dim_1600x900.png",
+    "frontend/public/assets/generated/home-processing-unit.dim_1600x900.png",
+    "frontend/public/assets/generated/home-products-collage.dim_1600x900.png",
+    "frontend/public/assets/generated/logo.dim_512x512.png",
+    "frontend/src/components/ExportInquiryForm.tsx",
+    "frontend/src/components/SiteFooter.tsx",
+    "frontend/src/components/SiteHeader.tsx",
+    "frontend/src/pages/ExportInquiryPage.tsx",
+    "frontend/src/pages/HomePage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

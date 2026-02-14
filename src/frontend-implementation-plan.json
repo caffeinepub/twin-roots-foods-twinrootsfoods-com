@@ -1,0 +1,137 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Twin Roots Foods rebrand + export-focused homepage sections, WhatsApp contact, and premium imagery",
+  "requirements": [
+    {
+      "id": "REQ-11",
+      "summary": "Rebrand header and footer to Twin Roots Foods while preserving existing navigation and flows.",
+      "acceptanceCriteria": [
+        "Header shows “Twin Roots Foods” as the brand name instead of the current placeholder name.",
+        "Footer shows “Twin Roots Foods” and an updated short brand description aligned with export-focused positioning.",
+        "No routes break; existing pages (Home, Shop, Export Inquiry, Cart, Checkout) remain accessible."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Replace the current brand name text with “Twin Roots Foods” (keep existing nav links and cart behavior intact); update logo alt text to a descriptive English label for Twin Roots Foods. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Update footer brand name to “Twin Roots Foods” and revise the short description to emphasize premium, natural, trustworthy export supply for international buyers/wholesale; keep existing quick links intact. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Update the Home hero to the required export positioning headline and supporting copy while keeping the hero banner as a static generated asset.",
+      "acceptanceCriteria": [
+        "Home page hero headline text matches exactly: “From Indian Farms to Global Tables”.",
+        "Hero supporting paragraph is written in English and targets international buyers/wholesale export.",
+        "Hero image remains a static asset under /assets/generated and renders correctly on desktop and mobile."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Rewrite the hero section: set the headline text exactly to “From Indian Farms to Global Tables”, update the supporting paragraph to export/wholesale-focused English copy, and ensure the hero image continues to reference the static asset at frontend/public/assets/generated/hero-banner.dim_1600x600.png with responsive styling. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Restructure the Home page to include the required export-focused sections in the specified order and connect Bulk Inquiry to the existing Export Inquiry functionality with a WhatsApp contact CTA.",
+      "acceptanceCriteria": [
+        "Home page contains distinct sections labeled/titled in English: “Our Products”, “About Us”, “Why Choose Us”, “Certifications”, “Bulk Inquiry”, and “Contact”.",
+        "“Our Products” section clearly represents the three main groupings: Indian Spices, Dry Fruits, and Dehydrated Powders (Onion, Garlic, Ginger, Moringa).",
+        "“About Us” section mentions the brand is founded by two brothers and describes a farm-to-global export story.",
+        "“Why Choose Us” section lists export-oriented trust points (e.g., quality, hygiene, sourcing) using concise English copy.",
+        "“Certifications” section displays placeholder certification logos and names.",
+        "“Bulk Inquiry” section provides a visible call-to-action and an embedded or clearly accessible inquiry form experience using the existing Export Inquiry functionality.",
+        "“Contact” section includes a WhatsApp button that opens a wa.me link (using a clearly marked placeholder number if a real number is not provided in the project)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ExportInquiryForm.tsx",
+          "operation": "create",
+          "description": "Create a reusable Export Inquiry form component (built from existing shadcn/ui primitives already used in ExportInquiryPage) that submits via the existing useSubmitExportInquiry hook and can be embedded on Home as the “Bulk Inquiry” form experience. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/ExportInquiryPage.tsx",
+          "operation": "modify",
+          "description": "Refactor the page to use the new ExportInquiryForm component for the form UI/submit flow (preserve existing success state UX), ensuring Export Inquiry page behavior remains unchanged. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Replace/extend the current Home layout to include (in order after the hero): “Our Products”, “About Us”, “Why Choose Us”, “Certifications”, “Bulk Inquiry”, “Contact”. Use English copy with premium/natural/trustworthy tone; ensure “Our Products” represents Indian Spices, Dry Fruits, and Dehydrated Powders (Onion, Garlic, Ginger, Moringa). Embed the ExportInquiryForm in the “Bulk Inquiry” section (and/or include a clear CTA link to /export-inquiry). Add a Contact section with a WhatsApp button using a clearly labeled placeholder number via a wa.me link. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "summary": "Add premium, export-appropriate static generated imagery across the Home sections with responsive rendering and English alt text.",
+      "acceptanceCriteria": [
+        "Home page displays at least: (1) a natural product image/collage, (2) a farmer/harvesting image, and (3) a hygienic processing unit image.",
+        "All new images are stored under frontend/public/assets/generated and referenced directly from the frontend.",
+        "Images have English alt text describing the visuals.",
+        "Images scale correctly on mobile without overflow or layout breakage."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/home-products-collage.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated natural product assortment image asset required for the Home “Our Products” section: frontend/public/assets/generated/home-products-collage.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/home-farmers.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated farmer/harvesting image asset required for the Home “About Us” story section: frontend/public/assets/generated/home-farmers.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/home-processing-unit.dim_1600x900.png",
+          "operation": "create",
+          "description": "Add the generated hygienic processing unit image asset required for the Home quality/trust section: frontend/public/assets/generated/home-processing-unit.dim_1600x900.png."
+        },
+        {
+          "path": "frontend/public/assets/generated/certifications-strip.dim_1400x220.png",
+          "operation": "create",
+          "description": "Add the generated certifications placeholder strip asset required for the Home “Certifications” section: frontend/public/assets/generated/certifications-strip.dim_1400x220.png."
+        },
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Wire the new static assets into the relevant Home sections (products/story/quality/certifications) by referencing: frontend/public/assets/generated/home-products-collage.dim_1600x900.png, frontend/public/assets/generated/home-farmers.dim_1600x900.png, frontend/public/assets/generated/home-processing-unit.dim_1600x900.png, and frontend/public/assets/generated/certifications-strip.dim_1400x220.png; ensure each image has English alt text and responsive sizing to prevent mobile overflow. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-15",
+      "summary": "Add a discoverable WhatsApp contact entry point on Home (and optionally header/footer) without removing existing navigation.",
+      "acceptanceCriteria": [
+        "WhatsApp button is visible on the Home page Contact section.",
+        "WhatsApp button opens a WhatsApp chat link in a new tab/window.",
+        "No existing header navigation links are removed (Home/Shop/Export Inquiry remain available)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/HomePage.tsx",
+          "operation": "modify",
+          "description": "Add a prominent WhatsApp button in the Home “Contact” section using a wa.me link with a clearly marked placeholder number (open in a new tab/window) and keep copy in English. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Optionally add a secondary WhatsApp contact action (e.g., a small button/link) while keeping all existing navigation items (Home/Shop/Export Inquiry) unchanged and visible. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Optionally add a WhatsApp contact link/button in the footer “Connect” area without removing existing links; ensure it opens a wa.me link in a new tab/window and uses a placeholder number if needed. Verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

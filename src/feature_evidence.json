@@ -1,0 +1,100 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-site-wide-branding-to-twin-roots-foods-twinrootsfoods-com-by-replacing-the-current-generic-brand-name-in-the-header-and-footer-while-keeping-existing-navigation-and-e-commerce-flows-intact",
+      "featureTitle": "Update the site-wide branding to “Twin Roots Foods” (twinrootsfoods.com) by replacing the current generic brand name in the header and footer, while keeping existing navigation and e-commerce flows intact.",
+      "files": [
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/components/SiteHeader.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-revise-the-home-page-hero-section-to-match-the-export-focused-positioning-including-updating-the-hero-headline-to-exactly-from-indian-farms-to-global-tables-and-updating-supporting-copy-to-emphasize-premium-natural-trustworthy-export-supply-for-international-buyers-and-wholesale",
+      "featureTitle": "Revise the Home page hero section to match the export-focused positioning, including updating the hero headline to exactly: “From Indian Farms to Global Tables”, and updating supporting copy to emphasize premium, natural, trustworthy export supply for international buyers and wholesale.",
+      "files": [
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-replace-home-page-sections-to-include-in-order-after-the-hero-our-products-about-us-two-brothers-farm-to-global-export-story-why-choose-us-certifications-bulk-inquiry-form-and-contact-including-a-whatsapp-button-use-english-for-all-user-facing-text-and-keep-the-overall-layout-premium-natural-and-trustworthy-with-earthy-styling",
+      "featureTitle": "Add/replace Home page sections to include, in order after the hero: Our Products, About Us (two brothers, farm-to-global export story), Why Choose Us, Certifications, Bulk Inquiry Form, and Contact (including a WhatsApp button). Use English for all user-facing text and keep the overall layout premium, natural, and trustworthy with earthy styling.",
+      "files": [
+        "frontend/src/components/ExportInquiryForm.tsx",
+        "frontend/src/pages/ExportInquiryPage.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-integrate-premium-export-appropriate-visuals-across-the-home-page-sections-using-static-generated-assets-include-natural-product-imagery-a-farmer-harvest-image-and-a-hygienic-processing-unit-image-ensure-these-images-are-used-in-relevant-sections-hero-story-quality-and-are-responsive-with-appropriate-alt-text-in-english",
+      "featureTitle": "Integrate premium, export-appropriate visuals across the Home page sections using static generated assets: include natural product imagery, a farmer/harvest image, and a hygienic processing unit image. Ensure these images are used in relevant sections (hero/story/quality) and are responsive with appropriate alt text in English.",
+      "files": [
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-whatsapp-contact-entry-point-that-is-easily-discoverable-include-a-whatsapp-button-in-the-contact-section-and-optionally-in-the-site-header-footer-as-a-secondary-contact-action-without-removing-existing-navigation-items",
+      "featureTitle": "Add a WhatsApp contact entry point that is easily discoverable: include a WhatsApp button in the Contact section and optionally in the site header/footer as a secondary contact action, without removing existing navigation items.",
+      "files": [
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/components/SiteHeader.tsx",
+        "frontend/src/pages/HomePage.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-15"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
