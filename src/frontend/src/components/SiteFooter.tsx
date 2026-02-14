@@ -1,10 +1,11 @@
 import { SiFacebook, SiInstagram, SiLinkedin } from 'react-icons/si';
 import { Heart, MessageCircle } from 'lucide-react';
+import { useOwnerContact } from '../hooks/useOwnerContact';
 
 export default function SiteFooter() {
   const currentYear = new Date().getFullYear();
   const appIdentifier = typeof window !== 'undefined' ? window.location.hostname : 'twinrootsfoods';
-  const whatsappNumber = '+919876543210'; // Placeholder number
+  const { whatsapp, whatsappLink } = useOwnerContact();
 
   return (
     <footer className="border-t bg-muted/30">
@@ -39,13 +40,13 @@ export default function SiteFooter() {
               </a>
             </div>
             <a
-              href={`https://wa.me/${whatsappNumber}`}
+              href={`https://wa.me/${whatsappLink}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
             >
               <MessageCircle className="h-4 w-4" />
-              WhatsApp: {whatsappNumber}
+              WhatsApp: {whatsapp}
             </a>
           </div>
         </div>

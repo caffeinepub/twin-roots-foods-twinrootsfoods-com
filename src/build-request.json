@@ -1,140 +1,85 @@
 {
   "kind": "build_request",
-  "title": "Rebrand site to Twin Roots Foods and add export-focused homepage sections with WhatsApp contact and premium imagery",
+  "title": "Add configurable owner contact email and WhatsApp number across the site",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-11",
-      "text": "Update the site-wide branding to “Twin Roots Foods” (twinrootsfoods.com) by replacing the current generic brand name in the header and footer, while keeping existing navigation and e-commerce flows intact.",
+      "id": "REQ-19",
+      "text": "Create a single source of truth on the frontend for the site owner’s contact details (at minimum: contact email and WhatsApp number) that persists in localStorage and provides safe defaults when not set.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Create a professional export-focused eCommerce website for my brand Twin Roots Foods (twinrootsfoods.com)."
+          "can i add mine mail id and whats app number"
         ]
       },
       "acceptanceCriteria": [
-        "Header shows “Twin Roots Foods” as the brand name instead of the current placeholder name.",
-        "Footer shows “Twin Roots Foods” and an updated short brand description aligned with export-focused positioning.",
-        "No routes break; existing pages (Home, Shop, Export Inquiry, Cart, Checkout) remain accessible."
+        "A new frontend utility (e.g., in frontend/src/lib) exists to get/set contact email and WhatsApp number using localStorage.",
+        "If localStorage values are missing or invalid, the app falls back to the current placeholder WhatsApp number (+919876543210) and an empty/missing email without crashing.",
+        "WhatsApp number handling supports common input formats (with spaces, +, dashes) and derives a wa.me-safe value (digits only) for link generation."
       ]
     },
     {
-      "id": "REQ-12",
-      "text": "Revise the Home page hero section to match the export-focused positioning, including updating the hero headline to exactly: “From Indian Farms to Global Tables”, and updating supporting copy to emphasize premium, natural, trustworthy export supply for international buyers and wholesale.",
+      "id": "REQ-20",
+      "text": "Add an Owner Dashboard section that allows the owner to view and update the contact email and WhatsApp number, gated by the existing Owner Mode flow.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Hero section with “From Indian Farms to Global Tables”",
-          "Make it suitable for international buyers and wholesale export."
+          "can i add mine mail id and whats app number"
         ]
       },
       "acceptanceCriteria": [
-        "Home page hero headline text matches exactly: “From Indian Farms to Global Tables”.",
-        "Hero supporting paragraph is written in English and targets international buyers/wholesale export.",
-        "Hero image remains a static asset under /assets/generated and renders correctly on desktop and mobile."
+        "OwnerPage includes an additional tab or section (in English) for editing contact details, visible only when Owner Mode is enabled via the existing OwnerGate.",
+        "The form includes fields for Email and WhatsApp Number, with basic validation (email format; WhatsApp must contain at least one digit).",
+        "Saving updates persists the values in localStorage and shows a success confirmation using existing UI feedback patterns (e.g., toast and/or inline message).",
+        "Refreshing the page retains the saved contact details and re-populates the Owner Dashboard fields."
       ]
     },
     {
-      "id": "REQ-13",
-      "text": "Add/replace Home page sections to include, in order after the hero: Our Products, About Us (two brothers, farm-to-global export story), Why Choose Us, Certifications, Bulk Inquiry Form, and Contact (including a WhatsApp button). Use English for all user-facing text and keep the overall layout premium, natural, and trustworthy with earthy styling.",
+      "id": "REQ-21",
+      "text": "Replace hardcoded WhatsApp placeholders in the header, footer, and Home page Contact section so they render and link using the saved owner contact details (email + WhatsApp).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-6"
         ],
         "quotes": [
-          "Add sections: Hero section with “From Indian Farms to Global Tables”\n\nOur Products\n\nAbout Us (two brothers, farm-to-global export story)\n\nWhy Choose Us\n\nCertifications\n\nBulk Inquiry Form\n\nContact with WhatsApp button"
+          "can i add mine mail id and whats app number"
         ]
       },
       "acceptanceCriteria": [
-        "Home page contains distinct sections labeled/titled in English: “Our Products”, “About Us”, “Why Choose Us”, “Certifications”, “Bulk Inquiry”, and “Contact”.",
-        "“Our Products” section clearly represents the three main groupings: Indian Spices, Dry Fruits, and Dehydrated Powders (Onion, Garlic, Ginger, Moringa).",
-        "“About Us” section mentions the brand is founded by two brothers and describes a farm-to-global export story.",
-        "“Why Choose Us” section lists export-oriented trust points (e.g., quality, hygiene, sourcing) using concise English copy.",
-        "“Certifications” section displays placeholder certification logos and names.",
-        "“Bulk Inquiry” section provides a visible call-to-action and an embedded or clearly accessible inquiry form experience using the existing Export Inquiry functionality.",
-        "“Contact” section includes a WhatsApp button that opens a wa.me link (using a clearly marked placeholder number if a real number is not provided in the project)."
-      ]
-    },
-    {
-      "id": "REQ-14",
-      "text": "Integrate premium, export-appropriate visuals across the Home page sections using static generated assets: include natural product imagery, a farmer/harvest image, and a hygienic processing unit image. Ensure these images are used in relevant sections (hero/story/quality) and are responsive with appropriate alt text in English.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Include high-quality natural product images, farmer images, and hygienic processing unit images."
-        ]
-      },
-      "acceptanceCriteria": [
-        "Home page displays at least: (1) a natural product image/collage, (2) a farmer/harvesting image, and (3) a hygienic processing unit image.",
-        "All new images are stored under frontend/public/assets/generated and referenced directly from the frontend.",
-        "Images have English alt text describing the visuals.",
-        "Images scale correctly on mobile without overflow or layout breakage."
-      ]
-    },
-    {
-      "id": "REQ-15",
-      "text": "Add a WhatsApp contact entry point that is easily discoverable: include a WhatsApp button in the Contact section and optionally in the site header/footer as a secondary contact action, without removing existing navigation items.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Contact with WhatsApp button"
-        ]
-      },
-      "acceptanceCriteria": [
-        "WhatsApp button is visible on the Home page Contact section.",
-        "WhatsApp button opens a WhatsApp chat link in a new tab/window.",
-        "No existing header navigation links are removed (Home/Shop/Export Inquiry remain available)."
+        "frontend/src/components/SiteHeader.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
+        "frontend/src/components/SiteFooter.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
+        "frontend/src/pages/HomePage.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value for the button link and the displayed number.",
+        "Home page Contact section displays the owner email (as a clickable mailto: link) when an email is set; if not set, it omits the email line (no placeholder text).",
+        "All user-facing labels added/changed are in English."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (compose existing UI components instead).",
-    "Do not edit immutable hook files listed in SYSTEM_CONTEXT (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx).",
-    "Keep the backend as a single Motoko actor; do not introduce additional backend services.",
-    "Do not serve images via the backend; reference all images as static assets under frontend/public/assets/generated."
+    "Do not edit files under frontend/src/components/ui (compose existing UI components only).",
+    "Do not modify any frontend immutable paths listed in SYSTEM_CONTEXT.",
+    "Do not introduce external authentication or third-party integrations beyond the existing Owner Mode local toggle and current UI patterns.",
+    "Do not route images through the backend; no image changes are required for this request."
   ],
   "nonGoals": [
-    "Implement payment gateway integration.",
-    "Add currency switching (USD/EUR/INR).",
-    "Implement bulk pricing/MOQ logic.",
-    "Add SEO tooling or programmatic metadata generation beyond basic page copy updates.",
-    "Add third-party authentication providers beyond Internet Identity."
+    "Persisting contact details in the Motoko backend canister state (this change should be frontend/localStorage-based).",
+    "Adding or changing social media links (Facebook/Instagram/LinkedIn) beyond the requested email/WhatsApp.",
+    "Changing inquiry submission fields or backend inquiry storage behavior."
   ],
   "imageRequirements": {
-    "required": [
-      "Wide hero banner showing Indian farmland transitioning to global export/trade mood with premium natural food styling (hero-banner.dim_1600x600.png)",
-      "Square brand logo mark with earthy green/brown palette, premium natural export brand feel (logo.dim_512x512.png)",
-      "Natural product assortment photo-style image featuring spices, dry fruits, and dehydrated powders on earthy background (home-products-collage.dim_1600x900.png)",
-      "Farmer harvesting crops in an Indian field, warm natural lighting, premium documentary photo style (home-farmers.dim_1600x900.png)",
-      "Clean hygienic food processing unit interior, stainless steel, food-grade environment, premium realistic photo style (home-processing-unit.dim_1600x900.png)",
-      "Set of simple monochrome/earthy placeholder certification logos in a consistent style (certifications-strip.dim_1400x220.png)"
-    ],
-    "edits": [
-      "Update brand styling to Twin Roots Foods (logo.dim_512x512.png > logo.dim_512x512.png)",
-      "Update hero banner to match farm-to-global export theme (hero-banner.dim_1600x600.png > hero-banner.dim_1600x600.png)"
-    ]
+    "required": [],
+    "edits": []
   },
   "userProfileUpdate": {
-    "goalsToAdd": [
-      "Rebrand the existing export-focused storefront as Twin Roots Foods with a premium natural look and an export-oriented homepage (sections + WhatsApp contact)."
-    ],
+    "goalsToAdd": [],
     "goalsToRemove": [],
-    "preferencesToAdd": [
-      "Use earthy colors (green and brown) and a premium, natural, trustworthy visual style."
-    ],
+    "preferencesToAdd": [],
     "preferencesToRemove": [],
     "miscToAdd": [],
     "miscToRemove": [],

@@ -1,11 +1,15 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
+  "projectStateVersion": 11,
   "summary": "Premium, export-focused eCommerce website for Twin Roots Foods (twinrootsfoods.com), an Indian agricultural export brand selling spices, dry fruits, and dehydrated powders to international and wholesale buyers, with a natural earthy visual identity and farm-to-global story.",
-  "architectural_notes": [],
-  "known_issues": [],
+  "architectural_notes": [
+    "Expose site contact details (email + WhatsApp number) as configurable values (e.g., in a config file/env or a simple owner-mode editable setting) and use consistently in Contact section/WhatsApp button."
+  ],
+  "known_issues": [
+    "Images shown for 'Dry Fruits' and 'Dehydrated Powders' sections/categories do not match the intended pictures.",
+    "Farmer/harvest image on the homepage does not match the intended farmer picture."
+  ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Wide hero banner showing Indian farmland transitioning to global export/trade mood with premium natural food styling (hero-banner.dim_1600x600.png)\n- Square brand logo mark with earthy green/brown palette, premium natural export brand feel (logo.dim_512x512.png)\n- Natural product assortment photo-style image featuring spices, dry fruits, and dehydrated powders on earthy background (home-products-collage.dim_1600x900.png)\n- Farmer harvesting crops in an Indian field, warm natural lighting, premium documentary photo style (home-farmers.dim_1600x900.png)\n- Clean hygienic food processing unit interior, stainless steel, food-grade environment, premium realistic photo style (home-processing-unit.dim_1600x900.png)\n- Set of simple monochrome/earthy placeholder certification logos in a consistent style (certifications-strip.dim_1400x220.png)\n\n## Edit Images\n- Update brand styling to Twin Roots Foods (logo.dim_512x512.png > logo.dim_512x512.png)\n- Update hero banner to match farm-to-global export theme (hero-banner.dim_1600x600.png > hero-banner.dim_1600x600.png)",
   "existing_features": [
     {
       "id": "feature-create-an-initial-product-catalog-containing-the-user-provided-items-and-categories-spices-turmeric-powder-dhaniya-coriander-powder-chili-powder-powders-onion-powder-ginger-powder-garlic-powder-tomato-powder-moringa-powder-and-dry-fruits-generic-category-dry-fruits-that-can-contain-multiple-items-each-product-must-have-at-least-name-category-short-description-and-an-optional-price-for-items-that-are-sold-online",
@@ -126,6 +130,54 @@
         "REQ-15"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-home-page-our-products-section-to-use-distinct-category-accurate-images-for-the-cards-titled-dry-fruits-and-dehydrated-powders-instead-of-reusing-the-same-collage-image-for-all-cards",
+      "title": "Update the Home page “Our Products” section to use distinct, category-accurate images for the cards titled “Dry Fruits” and “Dehydrated Powders” (instead of reusing the same collage image for all cards).",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-home-page-our-story-farmer-harvest-image-with-a-correct-farmer-harvest-visual-that-matches-the-intended-content",
+      "title": "Replace the Home page “Our Story” farmer/harvest image with a correct farmer/harvest visual that matches the intended content.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-the-newly-generated-static-images-into-the-home-page-implementation-by-updating-image-src-references-in-frontend-src-pages-homepage-tsx-to-point-to-the-new-filenames-under-assets-generated",
+      "title": "Wire the newly generated static images into the Home page implementation by updating image `src` references in `frontend/src/pages/HomePage.tsx` to point to the new filenames under `/assets/generated/`.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-single-source-of-truth-on-the-frontend-for-the-site-owner-s-contact-details-at-minimum-contact-email-and-whatsapp-number-that-persists-in-localstorage-and-provides-safe-defaults-when-not-set",
+      "title": "Create a single source of truth on the frontend for the site owner’s contact details (at minimum: contact email and WhatsApp number) that persists in localStorage and provides safe defaults when not set.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-owner-dashboard-section-that-allows-the-owner-to-view-and-update-the-contact-email-and-whatsapp-number-gated-by-the-existing-owner-mode-flow",
+      "title": "Add an Owner Dashboard section that allows the owner to view and update the contact email and WhatsApp number, gated by the existing Owner Mode flow.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-hardcoded-whatsapp-placeholders-in-the-header-footer-and-home-page-contact-section-so-they-render-and-link-using-the-saved-owner-contact-details-email-whatsapp",
+      "title": "Replace hardcoded WhatsApp placeholders in the header, footer, and Home page Contact section so they render and link using the saved owner contact details (email + WhatsApp).",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -168,6 +220,12 @@
     {
       "id": "AR-7",
       "summary": "Add Certifications section with placeholder logos (e.g., FSSAI/APEDA/ISO/HACCP/Organic placeholders)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Allow site owner to set/update their contact email and WhatsApp number (used in Contact section and WhatsApp button/link)",
       "reqIds": [],
       "status": "pending"
     }

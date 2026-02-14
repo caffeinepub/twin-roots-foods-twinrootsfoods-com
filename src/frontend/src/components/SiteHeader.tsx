@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useCart } from '../context/CartContext';
 import { getCartItemCount } from '../lib/cart';
+import { useOwnerContact } from '../hooks/useOwnerContact';
 import { useState } from 'react';
 
 export default function SiteHeader() {
@@ -11,14 +12,13 @@ export default function SiteHeader() {
   const { cart } = useCart();
   const itemCount = getCartItemCount(cart);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { whatsappLink } = useOwnerContact();
 
   const navLinks = [
     { label: 'Home', path: '/' },
     { label: 'Shop', path: '/shop' },
     { label: 'Export Inquiry', path: '/export-inquiry' }
   ];
-
-  const whatsappNumber = '+919876543210'; // Placeholder number
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -49,7 +49,7 @@ export default function SiteHeader() {
             asChild
           >
             <a
-              href={`https://wa.me/${whatsappNumber}`}
+              href={`https://wa.me/${whatsappLink}`}
               target="_blank"
               rel="noopener noreferrer"
               title="Contact us on WhatsApp"

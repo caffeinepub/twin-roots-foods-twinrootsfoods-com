@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Leaf, Shield, Award, Users, MessageCircle } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, Award, Users, MessageCircle, Mail } from 'lucide-react';
 import ExportInquiryForm from '../components/ExportInquiryForm';
+import { useOwnerContact } from '../hooks/useOwnerContact';
 
 export default function HomePage() {
-  const whatsappNumber = '+919876543210'; // Placeholder number
+  const { email, whatsapp, whatsappLink } = useOwnerContact();
 
   const products = [
     {
@@ -16,12 +17,12 @@ export default function HomePage() {
     {
       title: 'Dry Fruits',
       description: 'High-quality almonds, cashews, raisins, and mixed dry fruits',
-      image: '/assets/generated/home-products-collage.dim_1600x900.png'
+      image: '/assets/generated/home-dry-fruits.dim_1600x900.png'
     },
     {
       title: 'Dehydrated Powders',
       description: 'Onion, garlic, ginger, and moringa leaf powder for global markets',
-      image: '/assets/generated/home-products-collage.dim_1600x900.png'
+      image: '/assets/generated/home-dehydrated-powders.dim_1600x900.png'
     }
   ];
 
@@ -141,7 +142,7 @@ export default function HomePage() {
             </div>
             <div className="order-1 md:order-2">
               <img
-                src="/assets/generated/home-farmers.dim_1600x900.png"
+                src="/assets/generated/home-farmers-harvest.dim_1600x900.png"
                 alt="Indian farmers harvesting crops in traditional fields"
                 className="rounded-lg shadow-warm"
               />
@@ -243,21 +244,36 @@ export default function HomePage() {
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Get in Touch</h2>
             <p className="mb-8 text-lg text-muted-foreground">
-              Have questions or need immediate assistance? Contact us directly on WhatsApp for quick responses.
+              Have questions or need immediate assistance? Contact us directly for quick responses.
             </p>
-            <Button size="lg" className="gap-2" asChild>
-              <a
-                href={`https://wa.me/${whatsappNumber}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MessageCircle className="h-5 w-5" />
-                Chat on WhatsApp
-              </a>
-            </Button>
-            <p className="mt-4 text-sm text-muted-foreground">
-              WhatsApp: {whatsappNumber}
-            </p>
+            
+            <div className="flex flex-col items-center gap-4">
+              <Button size="lg" className="gap-2" asChild>
+                <a
+                  href={`https://wa.me/${whatsappLink}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  Chat on WhatsApp
+                </a>
+              </Button>
+              
+              <div className="space-y-2 text-sm text-muted-foreground">
+                <p className="flex items-center justify-center gap-2">
+                  <MessageCircle className="h-4 w-4" />
+                  WhatsApp: {whatsapp}
+                </p>
+                {email && (
+                  <p className="flex items-center justify-center gap-2">
+                    <Mail className="h-4 w-4" />
+                    <a href={`mailto:${email}`} className="hover:text-primary">
+                      {email}
+                    </a>
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>

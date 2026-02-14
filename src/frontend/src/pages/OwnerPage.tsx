@@ -4,9 +4,14 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Eye } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import OwnerGate from '../components/OwnerGate';
 import { useAllOrders, useAllExportInquiries } from '../hooks/useOwnerData';
+import { getOwnerContact, setOwnerContact, isValidEmail, isValidWhatsApp } from '../lib/ownerContact';
 
 function OrdersTab() {
   const { data: orders = [], isLoading } = useAllOrders();
@@ -219,25 +224,121 @@ function InquiriesTab() {
   );
 }
 
+function ContactDetailsTab() {
+  const currentContact = getOwnerContact();
+  const [email, setEmail] = useState(currentContact.email);
+  const [whatsapp, setWhatsapp] = useState(currentContact.whatsapp);
+  const [errors, setErrors] = useState<{ email?: string; whatsapp?: string }>({});
+
+  const handleSave = () => {
+    const newErrors: { email?: string; whatsapp?: string } = {};
+
+    // Validate email if provided
+    if (email && !isValidEmail(email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    // Validate WhatsApp (required, must contain at least one digit)
+    if (!whatsapp) {
+      newErrors.whatsapp = 'WhatsApp number is required';
+    } else if (!isValidWhatsApp(whatsapp)) {
+      newErrors.whatsapp = 'WhatsApp number must contain at least one digit';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    try {
+      setOwnerContact(email, whatsapp);
+      setErrors({});
+      toast.success('Contact details saved successfully');
+    } catch (error) {
+      toast.error('Failed to save contact details');
+    }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Contact Details</CardTitle>
+        <CardDescription>
+          Update your email and WhatsApp number displayed on the website
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="email">Email Address</Label>
+          <Input
+            id="email"
+            type="email"
+            placeholder="your@email.com"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (errors.email) setErrors({ ...errors, email: undefined });
+            }}
+          />
+          {errors.email && (
+            <p className="text-sm text-destructive">{errors.email}</p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            Optional. Will be displayed on the homepage contact section.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="whatsapp">WhatsApp Number</Label>
+          <Input
+            id="whatsapp"
+            type="text"
+            placeholder="+91 98765 43210"
+            value={whatsapp}
+            onChange={(e) => {
+              setWhatsapp(e.target.value);
+              if (errors.whatsapp) setErrors({ ...errors, whatsapp: undefined });
+            }}
+          />
+          {errors.whatsapp && (
+            <p className="text-sm text-destructive">{errors.whatsapp}</p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            Include country code (e.g., +91 for India). Displayed in header, footer, and contact sections.
+          </p>
+        </div>
+
+        <Button onClick={handleSave}>
+          Save Contact Details
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function OwnerPage() {
   return (
     <OwnerGate>
       <div className="container-custom py-12">
         <div className="mb-8">
           <h1 className="mb-2 font-display text-4xl font-bold">Owner Dashboard</h1>
-          <p className="text-lg text-muted-foreground">Manage orders and export inquiries</p>
+          <p className="text-lg text-muted-foreground">Manage orders, inquiries, and contact details</p>
         </div>
 
         <Tabs defaultValue="orders">
           <TabsList>
             <TabsTrigger value="orders">Orders</TabsTrigger>
             <TabsTrigger value="inquiries">Export Inquiries</TabsTrigger>
+            <TabsTrigger value="contact">Contact Details</TabsTrigger>
           </TabsList>
           <TabsContent value="orders" className="mt-6">
             <OrdersTab />
           </TabsContent>
           <TabsContent value="inquiries" className="mt-6">
             <InquiriesTab />
+          </TabsContent>
+          <TabsContent value="contact" className="mt-6">
+            <ContactDetailsTab />
           </TabsContent>
         </Tabs>
       </div>
