@@ -1,71 +1,88 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Configurable owner contact details (email + WhatsApp) persisted in localStorage",
+  "title": "Twin Roots Foods: Regenerated logo asset + header/footer bounce on load and route changes",
   "requirements": [
     {
-      "id": "REQ-19",
-      "summary": "Create a frontend single source of truth for owner contact email and WhatsApp number with localStorage persistence, safe defaults, and wa.me-safe normalization.",
+      "id": "REQ-36",
+      "summary": "Add a newly generated, more detailed Twin Roots Foods circular logo PNG as a static frontend asset (logo-v5).",
       "acceptanceCriteria": [
-        "A new frontend utility (e.g., in frontend/src/lib) exists to get/set contact email and WhatsApp number using localStorage.",
-        "If localStorage values are missing or invalid, the app falls back to the current placeholder WhatsApp number (+919876543210) and an empty/missing email without crashing.",
-        "WhatsApp number handling supports common input formats (with spaces, +, dashes) and derives a wa.me-safe value (digits only) for link generation."
+        "A new PNG logo asset exists under frontend/public/assets/generated/ with the filename specified in the image requirements.",
+        "The logo keeps a circular emblem with spice/ingredient line-art and an earthy palette, and is more detailed than the current logo.",
+        "The logo text reads exactly “Twin Roots Foods” and the tagline reads exactly “Rooted in Purity” (spelling/case/punctuation match)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/lib/ownerContact.ts",
+          "path": "frontend/public/assets/generated/logo-v5.dim_512x512.png",
           "operation": "create",
-          "description": "Add localStorage-backed utilities for owner contact details: get/set/clear for email and WhatsApp, validation helpers (email format; WhatsApp has at least one digit), and WhatsApp normalization that derives a wa.me-safe digits-only value while preserving a display-friendly value. Ensure safe defaults (WhatsApp default '+919876543210'; email undefined/empty) and defensive try/catch around localStorage access."
-        },
-        {
-          "path": "frontend/src/hooks/useOwnerContact.ts",
-          "operation": "create",
-          "description": "Create a small React hook that reads from the owner contact utility and keeps UI in sync after saves (e.g., via internal state + listening to 'storage' events and/or a custom window event dispatched by the setter). This allows header/footer/home to reflect updated contact details without requiring a full reload."
+          "description": "Add the regenerated detailed circular spice/ingredient line-art emblem PNG with integrated text “Twin Roots Foods” and curved tagline “Rooted in Purity” as a static asset (do not serve via backend)."
         }
       ]
     },
     {
-      "id": "REQ-20",
-      "summary": "Add an Owner Dashboard section to view and update contact email and WhatsApp number, gated by existing Owner Mode (OwnerGate).",
+      "id": "REQ-37",
+      "summary": "Update the header logo to use the newly generated logo-v5 asset while keeping appropriate English alt text.",
       "acceptanceCriteria": [
-        "OwnerPage includes an additional tab or section (in English) for editing contact details, visible only when Owner Mode is enabled via the existing OwnerGate.",
-        "The form includes fields for Email and WhatsApp Number, with basic validation (email format; WhatsApp must contain at least one digit).",
-        "Saving updates persists the values in localStorage and shows a success confirmation using existing UI feedback patterns (e.g., toast and/or inline message).",
-        "Refreshing the page retains the saved contact details and re-populates the Owner Dashboard fields."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/OwnerPage.tsx",
-          "operation": "modify",
-          "description": "Add a new Owner Dashboard tab/section labeled in English (e.g., 'Contact Details') inside the existing Tabs, still wrapped by OwnerGate. Compose existing UI components (do not edit anything under frontend/src/components/ui) to render a small form with Email and WhatsApp Number fields. Pre-populate from the owner contact utility/hook, validate on save (email format; WhatsApp contains at least one digit), persist to localStorage via the utility, and show success feedback using the app’s existing toast/inline messaging pattern."
-        }
-      ]
-    },
-    {
-      "id": "REQ-21",
-      "summary": "Replace hardcoded WhatsApp placeholders in header, footer, and Home contact section with stored owner contact details, including wa.me link generation and optional email display.",
-      "acceptanceCriteria": [
-        "frontend/src/components/SiteHeader.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
-        "frontend/src/components/SiteFooter.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
-        "frontend/src/pages/HomePage.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value for the button link and the displayed number.",
-        "Home page Contact section displays the owner email (as a clickable mailto: link) when an email is set; if not set, it omits the email line (no placeholder text).",
-        "All user-facing labels added/changed are in English."
+        "Header renders the new logo asset (not logo-v4).",
+        "Header logo alt text remains in English and remains appropriate for the brand (e.g., “Twin Roots Foods”)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/SiteHeader.tsx",
           "operation": "modify",
-          "description": "Remove the hardcoded WhatsApp placeholder constant and read the saved WhatsApp value via the owner contact utility/hook. Generate the WhatsApp link using the wa.me-safe digits-only value (https://wa.me/<digits>). Keep labels/titles in English."
+          "description": "Replace the header logo image source from the current generated logo to use the new static asset at frontend/public/assets/generated/logo-v5.dim_512x512.png, keeping alt text as “Twin Roots Foods”."
+        }
+      ]
+    },
+    {
+      "id": "REQ-38",
+      "summary": "Add a footer logo image (using logo-v5) next to the footer branding text without breaking responsiveness.",
+      "acceptanceCriteria": [
+        "Footer displays the new logo image alongside the existing footer brand text/tagline.",
+        "The footer remains responsive and does not break the existing footer grid layout."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Add a logo image using frontend/public/assets/generated/logo-v5.dim_512x512.png in the footer branding area near the “Twin Roots Foods” text, ensuring the existing grid layout remains intact and responsive."
+        }
+      ]
+    },
+    {
+      "id": "REQ-39",
+      "summary": "Add a noticeable bounce animation that plays on initial load and on internal route changes for the header and footer logo images only.",
+      "acceptanceCriteria": [
+        "On initial page load, the header logo and footer logo each play a noticeable bounce animation once.",
+        "On internal navigation (changing routes within the SPA), the header logo and footer logo each play the bounce animation again.",
+        "Animation is applied to the logo image element(s) only (not the whole header/footer containers).",
+        "All user-facing text remains English (no new non-English strings introduced as part of this change)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Add a custom, noticeable logo-bounce keyframes/animation utility (e.g., a stronger bounce than the default) that can be applied to the logo <img> elements."
+        },
+        {
+          "path": "frontend/src/hooks/useLogoBounceKey.ts",
+          "operation": "create",
+          "description": "Create a hook that observes TanStack Router location changes and produces a changing key/value on initial load and route changes, so logo images can remount/restart the bounce animation each navigation."
+        },
+        {
+          "path": "frontend/src/components/BrandLogo.tsx",
+          "operation": "create",
+          "description": "Create a shared BrandLogo component that renders the logo <img> with the bounce animation class and uses the route-change key (from useLogoBounceKey) to replay the animation on initial load and internal navigation."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Wire the header to render the new BrandLogo component (or apply the bounce animation behavior to the header logo <img> only), ensuring the bounce replays on route changes and not on the entire header container."
         },
         {
           "path": "frontend/src/components/SiteFooter.tsx",
           "operation": "modify",
-          "description": "Remove the hardcoded WhatsApp placeholder constant and render the stored WhatsApp display value. Generate the WhatsApp link using the wa.me-safe digits-only value (https://wa.me/<digits>). Keep existing social links unchanged (non-goal) and keep labels in English."
-        },
-        {
-          "path": "frontend/src/pages/HomePage.tsx",
-          "operation": "modify",
-          "description": "Update the Contact section to use stored owner contact details instead of a hardcoded WhatsApp placeholder. Use the wa.me-safe digits-only value for the WhatsApp button/link and show the stored display number. Add conditional rendering for owner email: when set, show a clickable mailto: link; when not set, omit the email line entirely (no placeholder). Ensure all user-facing labels are English."
+          "description": "Wire the footer to render the same BrandLogo component (or apply the bounce animation behavior to the footer logo <img> only), ensuring the bounce replays on route changes and not on the entire footer container."
         }
       ]
     }

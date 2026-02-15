@@ -1,89 +1,100 @@
 {
   "kind": "build_request",
-  "title": "Add configurable owner contact email and WhatsApp number across the site",
+  "title": "Regenerate logo (more detailed, similar) and add noticeable bounce animation on page enter/exit",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-19",
-      "text": "Create a single source of truth on the frontend for the site owner’s contact details (at minimum: contact email and WhatsApp number) that persists in localStorage and provides safe defaults when not set.",
+      "id": "REQ-36",
+      "text": "Generate a new Twin Roots Foods logo PNG that is different but visually similar to the user-uploaded reference (image-3.png): keep a circular layout, spice/ingredient line-art elements, earthy color palette, and include the exact text “Twin Roots Foods” and curved tagline text “Rooted in Purity”, but make the overall emblem more detailed. Save it as a static asset under frontend/public/assets/generated/ and do not serve it via the backend.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-3"
         ],
         "quotes": [
-          "can i add mine mail id and whats app number"
+          "Still compeney logo same showing:\n\ni am attaching again, plase make it different but similar",
+          "1.circular layout, spice elements, earthy colors, tagline text\n\n2.more detailed design\n\n3.Yes"
         ]
       },
       "acceptanceCriteria": [
-        "A new frontend utility (e.g., in frontend/src/lib) exists to get/set contact email and WhatsApp number using localStorage.",
-        "If localStorage values are missing or invalid, the app falls back to the current placeholder WhatsApp number (+919876543210) and an empty/missing email without crashing.",
-        "WhatsApp number handling supports common input formats (with spaces, +, dashes) and derives a wa.me-safe value (digits only) for link generation."
+        "A new PNG logo asset exists under frontend/public/assets/generated/ with the filename specified in the image requirements.",
+        "The logo keeps a circular emblem with spice/ingredient line-art and an earthy palette, and is more detailed than the current logo.",
+        "The logo text reads exactly “Twin Roots Foods” and the tagline reads exactly “Rooted in Purity” (spelling/case/punctuation match)."
       ]
     },
     {
-      "id": "REQ-20",
-      "text": "Add an Owner Dashboard section that allows the owner to view and update the contact email and WhatsApp number, gated by the existing Owner Mode flow.",
+      "id": "REQ-37",
+      "text": "Update the site header logo image to use the newly generated logo asset instead of the current /assets/generated/logo-v4.dim_512x512.png.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-3"
         ],
         "quotes": [
-          "can i add mine mail id and whats app number"
+          "Still compeney logo same showing:\n\ni am attaching again, plase make it different but similar"
         ]
       },
       "acceptanceCriteria": [
-        "OwnerPage includes an additional tab or section (in English) for editing contact details, visible only when Owner Mode is enabled via the existing OwnerGate.",
-        "The form includes fields for Email and WhatsApp Number, with basic validation (email format; WhatsApp must contain at least one digit).",
-        "Saving updates persists the values in localStorage and shows a success confirmation using existing UI feedback patterns (e.g., toast and/or inline message).",
-        "Refreshing the page retains the saved contact details and re-populates the Owner Dashboard fields."
+        "Header renders the new logo asset (not logo-v4).",
+        "Header logo alt text remains in English and remains appropriate for the brand (e.g., “Twin Roots Foods”)."
       ]
     },
     {
-      "id": "REQ-21",
-      "text": "Replace hardcoded WhatsApp placeholders in the header, footer, and Home page Contact section so they render and link using the saved owner contact details (email + WhatsApp).",
+      "id": "REQ-38",
+      "text": "Add a footer logo image (using the same newly generated logo asset) in the footer branding area near the “Twin Roots Foods” text so the footer has a logo to animate as requested.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-6"
+          "msg-12"
         ],
         "quotes": [
-          "can i add mine mail id and whats app number"
+          "1. Also the footer logo"
         ]
       },
       "acceptanceCriteria": [
-        "frontend/src/components/SiteHeader.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
-        "frontend/src/components/SiteFooter.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value and generates a valid https://wa.me/<digits> link.",
-        "frontend/src/pages/HomePage.tsx no longer uses a hardcoded whatsappNumber constant; it uses the stored WhatsApp value for the button link and the displayed number.",
-        "Home page Contact section displays the owner email (as a clickable mailto: link) when an email is set; if not set, it omits the email line (no placeholder text).",
-        "All user-facing labels added/changed are in English."
+        "Footer displays the new logo image alongside the existing footer brand text/tagline.",
+        "The footer remains responsive and does not break the existing footer grid layout."
+      ]
+    },
+    {
+      "id": "REQ-39",
+      "text": "Implement a noticeable bounce animation for the logo on both the header and footer: the bounce must play when the user visits/loads a page and also when navigating between internal pages (i.e., on route changes).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-10",
+          "msg-12",
+          "msg-14"
+        ],
+        "quotes": [
+          "Yes-Add animation (Bounce) on logo when visit the site and exit the each page",
+          "2.Yes",
+          "3.Noticeable"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On initial page load, the header logo and footer logo each play a noticeable bounce animation once.",
+        "On internal navigation (changing routes within the SPA), the header logo and footer logo each play the bounce animation again.",
+        "Animation is applied to the logo image element(s) only (not the whole header/footer containers).",
+        "All user-facing text remains English (no new non-English strings introduced as part of this change)."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (compose existing UI components only).",
-    "Do not modify any frontend immutable paths listed in SYSTEM_CONTEXT.",
-    "Do not introduce external authentication or third-party integrations beyond the existing Owner Mode local toggle and current UI patterns.",
-    "Do not route images through the backend; no image changes are required for this request."
+    "Frontend immutable paths must not be edited: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui/*.",
+    "Store and reference the logo as a static asset under frontend/public/assets/generated; do not serve images via the backend.",
+    "Keep the brand texts exactly: “Twin Roots Foods” and “Rooted in Purity”.",
+    "Use English for any user-facing text."
   ],
   "nonGoals": [
-    "Persisting contact details in the Motoko backend canister state (this change should be frontend/localStorage-based).",
-    "Adding or changing social media links (Facebook/Instagram/LinkedIn) beyond the requested email/WhatsApp.",
-    "Changing inquiry submission fields or backend inquiry storage behavior."
+    "No backend (Motoko) changes.",
+    "No changes to product catalog, checkout, orders, or export inquiry behavior.",
+    "No additional animations beyond the requested logo bounce on page enter and internal navigation/exit."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Detailed circular spice/ingredient line-art emblem in an earthy palette with integrated brand text “Twin Roots Foods” and curved tagline “Rooted in Purity” (logo-v5.dim_512x512.png)"
+    ],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

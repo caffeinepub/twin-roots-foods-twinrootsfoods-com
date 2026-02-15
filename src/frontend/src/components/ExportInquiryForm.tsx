@@ -6,6 +6,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle2 } from 'lucide-react';
 import { useSubmitExportInquiry } from '../hooks/useExportInquiry';
+import { useLanguage } from '../i18n/LanguageProvider';
+import { translateText } from '../lib/translation/translator';
+import { useT } from '../i18n/useT';
 import { toast } from 'sonner';
 
 interface ExportInquiryFormProps {
@@ -15,6 +18,8 @@ interface ExportInquiryFormProps {
 
 export default function ExportInquiryForm({ onSuccess, showSuccessInline = false }: ExportInquiryFormProps) {
   const submitInquiryMutation = useSubmitExportInquiry();
+  const { language } = useLanguage();
+  const t = useT();
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     companyName: '',
@@ -31,11 +36,17 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
     e.preventDefault();
 
     if (!formData.companyName || !formData.contactPerson || !formData.email || !formData.phone || !formData.destinationCountry) {
-      toast.error('Please fill in all required fields');
+      toast.error(t('inquiryForm.fillRequired'));
       return;
     }
 
     try {
+      // Translate message to English if not already in English
+      let englishTranslation: string | null = null;
+      if (language !== 'en' && formData.message.trim()) {
+        englishTranslation = await translateText(formData.message, 'en', language);
+      }
+
       await submitInquiryMutation.mutateAsync({
         companyName: formData.companyName,
         contactPerson: formData.contactPerson,
@@ -44,11 +55,12 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
         destinationCountry: formData.destinationCountry,
         productsOfInterest: formData.productsOfInterest.split(',').map(p => p.trim()).filter(Boolean),
         estimatedQuantity: formData.estimatedQuantity,
-        message: formData.message
+        message: formData.message,
+        englishTranslation
       });
 
       setSubmitted(true);
-      toast.success('Inquiry submitted successfully!');
+      toast.success(t('inquiryForm.submitSuccess'));
       
       if (onSuccess) {
         onSuccess();
@@ -71,7 +83,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
         }, 3000);
       }
     } catch (error) {
-      toast.error('Failed to submit inquiry. Please try again.');
+      toast.error(t('inquiryForm.submitError'));
       console.error(error);
     }
   };
@@ -81,7 +93,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
       <Alert className="border-primary/50 bg-primary/5">
         <CheckCircle2 className="h-4 w-4 text-primary" />
         <AlertDescription>
-          Thank you for your inquiry! Our team will contact you within 24-48 hours.
+          {t('inquiryForm.successInline')}
         </AlertDescription>
       </Alert>
     );
@@ -91,7 +103,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="companyName">Company Name *</Label>
+          <Label htmlFor="companyName">{t('inquiryForm.companyName')} *</Label>
           <Input
             id="companyName"
             value={formData.companyName}
@@ -100,7 +112,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
           />
         </div>
         <div>
-          <Label htmlFor="contactPerson">Contact Person *</Label>
+          <Label htmlFor="contactPerson">{t('inquiryForm.contactPerson')} *</Label>
           <Input
             id="contactPerson"
             value={formData.contactPerson}
@@ -112,7 +124,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <Label htmlFor="email">Email *</Label>
+          <Label htmlFor="email">{t('inquiryForm.email')} *</Label>
           <Input
             id="email"
             type="email"
@@ -122,7 +134,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
           />
         </div>
         <div>
-          <Label htmlFor="phone">Phone *</Label>
+          <Label htmlFor="phone">{t('inquiryForm.phone')} *</Label>
           <Input
             id="phone"
             type="tel"
@@ -134,7 +146,7 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
       </div>
 
       <div>
-        <Label htmlFor="destinationCountry">Destination Country *</Label>
+        <Label htmlFor="destinationCountry">{t('inquiryForm.destinationCountry')} *</Label>
         <Input
           id="destinationCountry"
           value={formData.destinationCountry}
@@ -144,39 +156,38 @@ export default function ExportInquiryForm({ onSuccess, showSuccessInline = false
       </div>
 
       <div>
-        <Label htmlFor="productsOfInterest">Products of Interest</Label>
+        <Label htmlFor="productsOfInterest">{t('inquiryForm.productsOfInterest')}</Label>
         <Input
           id="productsOfInterest"
           value={formData.productsOfInterest}
           onChange={e => setFormData({ ...formData, productsOfInterest: e.target.value })}
-          placeholder="e.g., Turmeric Powder, Chili Powder"
+          placeholder={t('inquiryForm.productsPlaceholder')}
         />
-        <p className="mt-1 text-xs text-muted-foreground">Separate multiple products with commas</p>
       </div>
 
       <div>
-        <Label htmlFor="estimatedQuantity">Estimated Quantity</Label>
+        <Label htmlFor="estimatedQuantity">{t('inquiryForm.estimatedQuantity')}</Label>
         <Input
           id="estimatedQuantity"
           value={formData.estimatedQuantity}
           onChange={e => setFormData({ ...formData, estimatedQuantity: e.target.value })}
-          placeholder="e.g., 1000 kg, 50 tons"
+          placeholder={t('inquiryForm.quantityPlaceholder')}
         />
       </div>
 
       <div>
-        <Label htmlFor="message">Message</Label>
+        <Label htmlFor="message">{t('inquiryForm.message')}</Label>
         <Textarea
           id="message"
           value={formData.message}
           onChange={e => setFormData({ ...formData, message: e.target.value })}
+          placeholder={t('inquiryForm.messagePlaceholder')}
           rows={4}
-          placeholder="Tell us more about your requirements..."
         />
       </div>
 
-      <Button type="submit" size="lg" className="w-full" disabled={submitInquiryMutation.isPending}>
-        {submitInquiryMutation.isPending ? 'Submitting...' : 'Submit Inquiry'}
+      <Button type="submit" disabled={submitInquiryMutation.isPending} className="w-full">
+        {submitInquiryMutation.isPending ? t('inquiryForm.submitting') : t('inquiryForm.submit')}
       </Button>
     </form>
   );

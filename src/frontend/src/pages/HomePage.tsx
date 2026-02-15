@@ -1,27 +1,32 @@
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Leaf, Shield, Award, Users, MessageCircle, Mail } from 'lucide-react';
+import { ArrowRight, Leaf, Shield, Award, Users, Mail } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
 import ExportInquiryForm from '../components/ExportInquiryForm';
 import { useOwnerContact } from '../hooks/useOwnerContact';
+import { useT } from '../i18n/useT';
+import { useLanguage } from '../i18n/LanguageProvider';
 
 export default function HomePage() {
   const { email, whatsapp, whatsappLink } = useOwnerContact();
+  const t = useT();
+  const { language } = useLanguage();
 
   const products = [
     {
-      title: 'Indian Spices',
-      description: 'Premium turmeric, chili, coriander, and traditional spice blends',
+      title: t('home.products.indianSpices'),
+      description: t('home.products.indianSpicesDesc'),
       image: '/assets/generated/home-products-collage.dim_1600x900.png'
     },
     {
-      title: 'Dry Fruits',
-      description: 'High-quality almonds, cashews, raisins, and mixed dry fruits',
+      title: t('home.products.dryFruits'),
+      description: t('home.products.dryFruitsDesc'),
       image: '/assets/generated/home-dry-fruits.dim_1600x900.png'
     },
     {
-      title: 'Dehydrated Powders',
-      description: 'Onion, garlic, ginger, and moringa leaf powder for global markets',
+      title: t('home.products.dehydratedPowders'),
+      description: t('home.products.dehydratedPowdersDesc'),
       image: '/assets/generated/home-dehydrated-powders.dim_1600x900.png'
     }
   ];
@@ -29,23 +34,23 @@ export default function HomePage() {
   const whyChooseUs = [
     {
       icon: Shield,
-      title: 'Export Quality Standards',
-      description: 'Lab-tested products meeting international food safety regulations'
+      title: t('home.whyChoose.exportQuality'),
+      description: t('home.whyChoose.exportQualityDesc')
     },
     {
       icon: Leaf,
-      title: '100% Natural',
-      description: 'No chemicals, preservatives, or artificial additives'
+      title: t('home.whyChoose.pureClean'),
+      description: t('home.whyChoose.pureCleanDesc')
     },
     {
       icon: Award,
-      title: 'Certified Processing',
-      description: 'Hygienic facilities with FSSAI, APEDA, and ISO certifications'
+      title: t('home.whyChoose.certified'),
+      description: t('home.whyChoose.certifiedDesc')
     },
     {
       icon: Users,
-      title: 'Direct from Farmers',
-      description: 'Sustainable sourcing supporting local farming communities'
+      title: t('home.whyChoose.directFarmers'),
+      description: t('home.whyChoose.directFarmersDesc')
     }
   ];
 
@@ -57,20 +62,20 @@ export default function HomePage() {
           <div className="grid gap-8 md:grid-cols-2 md:items-center">
             <div>
               <h1 className="mb-4 font-display text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
-                From Indian Farms to Global Tables
+                {t('home.hero.title')}
               </h1>
               <p className="mb-8 text-lg text-muted-foreground">
-                Twin Roots Foods brings you premium natural products sourced directly from Indian farms. Founded by two brothers committed to quality, sustainability, and export excellence for international buyers and wholesale partners worldwide.
+                {t('home.hero.description')}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link to="/shop">
+                <Link to={`/${language}/shop` as any}>
                   <Button size="lg" className="gap-2">
-                    Browse Products <ArrowRight className="h-4 w-4" />
+                    {t('home.hero.browseProducts')} <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Link to="/export-inquiry">
+                <Link to={`/${language}/export-inquiry` as any}>
                   <Button size="lg" variant="outline" className="gap-2">
-                    Request Bulk Quote
+                    {t('home.hero.requestQuote')}
                   </Button>
                 </Link>
               </div>
@@ -90,9 +95,9 @@ export default function HomePage() {
       <section className="border-t py-16">
         <div className="container-custom">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Our Products</h2>
+            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.products.title')}</h2>
             <p className="text-lg text-muted-foreground">
-              Premium quality products for international markets
+              {t('home.products.subtitle')}
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-3">
@@ -110,9 +115,9 @@ export default function HomePage() {
                   <CardDescription>{product.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Link to="/shop">
+                  <Link to={`/${language}/shop` as any}>
                     <Button variant="ghost" className="gap-2 p-0">
-                      View Products <ArrowRight className="h-4 w-4" />
+                      {t('home.products.viewProducts')} <ArrowRight className="h-4 w-4" />
                     </Button>
                   </Link>
                 </CardContent>
@@ -127,16 +132,16 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="grid gap-12 md:grid-cols-2 md:items-center">
             <div className="order-2 md:order-1">
-              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Our Story</h2>
+              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.about.title')}</h2>
               <p className="mb-4 text-lg text-muted-foreground">
-                Twin Roots Foods was founded by two brothers with a vision to connect the richness of Indian agriculture with global markets. Growing up in farming communities, we witnessed firsthand the quality and care that goes into every harvest.
+                {t('home.about.p1')}
               </p>
               <p className="mb-6 text-lg text-muted-foreground">
-                Today, we work directly with farmers across India to source premium spices, dry fruits, and dehydrated powders. Our state-of-the-art processing facilities ensure every product meets international export standards while preserving natural goodness and supporting sustainable farming practices.
+                {t('home.about.p2')}
               </p>
-              <Link to="/export-inquiry">
+              <Link to={`/${language}/export-inquiry` as any}>
                 <Button size="lg" className="gap-2">
-                  Partner With Us <ArrowRight className="h-4 w-4" />
+                  {t('home.about.partnerWithUs')} <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             </div>
@@ -155,9 +160,9 @@ export default function HomePage() {
       <section className="border-t py-16">
         <div className="container-custom">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Why Choose Us</h2>
+            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.whyChoose.title')}</h2>
             <p className="text-lg text-muted-foreground">
-              Trusted by international buyers for quality and reliability
+              {t('home.whyChoose.subtitle')}
             </p>
           </div>
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -188,12 +193,12 @@ export default function HomePage() {
               />
             </div>
             <div>
-              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Hygienic Processing</h2>
+              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.processing.title')}</h2>
               <p className="mb-4 text-lg text-muted-foreground">
-                Our state-of-the-art processing facilities maintain the highest standards of hygiene and food safety. Every step from cleaning to packaging is monitored to ensure export-quality products.
+                {t('home.processing.p1')}
               </p>
               <p className="text-lg text-muted-foreground">
-                We use modern equipment and follow strict protocols to preserve the natural properties, aroma, and nutritional value of our products while meeting international quality standards.
+                {t('home.processing.p2')}
               </p>
             </div>
           </div>
@@ -204,9 +209,9 @@ export default function HomePage() {
       <section className="border-t py-16">
         <div className="container-custom">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Certifications</h2>
+            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.certifications.title')}</h2>
             <p className="text-lg text-muted-foreground">
-              Certified for quality and compliance with international standards
+              {t('home.certifications.subtitle')}
             </p>
           </div>
           <div className="flex justify-center">
@@ -224,9 +229,9 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="mx-auto max-w-3xl">
             <div className="mb-8 text-center">
-              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Bulk Inquiry</h2>
+              <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.bulkInquiry.title')}</h2>
               <p className="text-lg text-muted-foreground">
-                Interested in wholesale or export orders? Submit your inquiry and our team will respond within 24-48 hours.
+                {t('home.bulkInquiry.subtitle')}
               </p>
             </div>
             <Card>
@@ -242,9 +247,9 @@ export default function HomePage() {
       <section className="border-t py-16">
         <div className="container-custom">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">Get in Touch</h2>
+            <h2 className="mb-4 font-display text-3xl font-bold md:text-4xl">{t('home.contact.title')}</h2>
             <p className="mb-8 text-lg text-muted-foreground">
-              Have questions or need immediate assistance? Contact us directly for quick responses.
+              {t('home.contact.subtitle')}
             </p>
             
             <div className="flex flex-col items-center gap-4">
@@ -254,15 +259,15 @@ export default function HomePage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MessageCircle className="h-5 w-5" />
-                  Chat on WhatsApp
+                  <SiWhatsapp className="h-5 w-5" />
+                  {t('home.contact.chatWhatsApp')}
                 </a>
               </Button>
               
               <div className="space-y-2 text-sm text-muted-foreground">
                 <p className="flex items-center justify-center gap-2">
-                  <MessageCircle className="h-4 w-4" />
-                  WhatsApp: {whatsapp}
+                  <SiWhatsapp className="h-4 w-4" />
+                  {t('footer.whatsapp')}: {whatsapp}
                 </p>
                 {email && (
                   <p className="flex items-center justify-center gap-2">

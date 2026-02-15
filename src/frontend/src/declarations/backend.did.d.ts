@@ -19,6 +19,7 @@ export interface ExportInquiry {
   'companyName' : string,
   'phone' : string,
   'destinationCountry' : string,
+  'englishTranslation' : [] | [string],
   'productsOfInterest' : Array<string>,
   'inquiryId' : bigint,
 }
@@ -51,22 +52,47 @@ export interface Product {
   'price' : [] | [bigint],
 }
 export type Time = bigint;
+export interface UserProfile {
+  'name' : string,
+  'role' : string,
+  'email' : [] | [string],
+}
+export type UserRole = { 'admin' : null } |
+  { 'user' : null } |
+  { 'guest' : null };
 export interface _SERVICE {
+  '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'createInitialCatalog' : ActorMethod<[], undefined>,
   'getAllExportInquiries' : ActorMethod<[], Array<ExportInquiry>>,
   'getAllOrders' : ActorMethod<[], Array<Order>>,
   'getAvailableProducts' : ActorMethod<[], Array<Product>>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getExportInquiryById' : ActorMethod<[bigint], ExportInquiry>,
   'getOrderById' : ActorMethod<[bigint], Order>,
   'getProductCategories' : ActorMethod<[], Array<string>>,
   'getProducts' : ActorMethod<[], Array<Product>>,
   'getProductsByCategory' : ActorMethod<[string], Array<Product>>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'isCallerAdmin' : ActorMethod<[], boolean>,
   'placeOrder' : ActorMethod<
     [string, string, string, Array<OrderItem>],
     bigint
   >,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
   'submitExportInquiry' : ActorMethod<
-    [string, string, string, string, string, Array<string>, string, string],
+    [
+      string,
+      string,
+      string,
+      string,
+      string,
+      Array<string>,
+      string,
+      string,
+      [] | [string],
+    ],
     bigint
   >,
 }

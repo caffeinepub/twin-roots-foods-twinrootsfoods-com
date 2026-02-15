@@ -16,10 +16,17 @@ export interface ExportInquiry {
     companyName: string;
     phone: string;
     destinationCountry: string;
+    englishTranslation?: string;
     productsOfInterest: Array<string>;
     inquiryId: bigint;
 }
 export type Time = bigint;
+export interface OrderItem {
+    name: string;
+    productId: bigint;
+    quantity: bigint;
+    unitPrice?: bigint;
+}
 export interface Order {
     customerName: string;
     status: OrderStatus;
@@ -30,6 +37,11 @@ export interface Order {
     totalPrice: bigint;
     contactDetails: string;
 }
+export interface UserProfile {
+    name: string;
+    role: string;
+    email?: string;
+}
 export interface Product {
     processPicture?: string;
     name: string;
@@ -38,28 +50,33 @@ export interface Product {
     category: string;
     price?: bigint;
 }
-export interface OrderItem {
-    name: string;
-    productId: bigint;
-    quantity: bigint;
-    unitPrice?: bigint;
-}
 export enum OrderStatus {
     shipped = "shipped",
     cancelled = "cancelled",
     pending = "pending",
     processed = "processed"
 }
+export enum UserRole {
+    admin = "admin",
+    user = "user",
+    guest = "guest"
+}
 export interface backendInterface {
+    assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createInitialCatalog(): Promise<void>;
     getAllExportInquiries(): Promise<Array<ExportInquiry>>;
     getAllOrders(): Promise<Array<Order>>;
     getAvailableProducts(): Promise<Array<Product>>;
+    getCallerUserProfile(): Promise<UserProfile | null>;
+    getCallerUserRole(): Promise<UserRole>;
     getExportInquiryById(inquiryId: bigint): Promise<ExportInquiry>;
     getOrderById(orderId: bigint): Promise<Order>;
     getProductCategories(): Promise<Array<string>>;
     getProducts(): Promise<Array<Product>>;
     getProductsByCategory(category: string): Promise<Array<Product>>;
+    getUserProfile(user: Principal): Promise<UserProfile | null>;
+    isCallerAdmin(): Promise<boolean>;
     placeOrder(customerName: string, contactDetails: string, shippingAddress: string, items: Array<OrderItem>): Promise<bigint>;
-    submitExportInquiry(companyName: string, contactPerson: string, email: string, phone: string, destinationCountry: string, productsOfInterest: Array<string>, estimatedQuantity: string, message: string): Promise<bigint>;
+    saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    submitExportInquiry(companyName: string, contactPerson: string, email: string, phone: string, destinationCountry: string, productsOfInterest: Array<string>, estimatedQuantity: string, message: string, englishTranslation: string | null): Promise<bigint>;
 }

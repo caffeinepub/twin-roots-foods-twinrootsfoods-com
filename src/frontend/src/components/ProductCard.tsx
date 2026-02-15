@@ -1,8 +1,10 @@
-import { Link } from '@tanstack/react-router';
+import { useNavigate } from '@tanstack/react-router';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import ProcessPicture from './ProcessPicture';
+import { useT } from '../i18n/useT';
+import { useLanguage } from '../i18n/LanguageProvider';
 import type { Product } from '../backend';
 
 interface ProductCardProps {
@@ -11,7 +13,14 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, productId }: ProductCardProps) {
-  const formattedPrice = product.price ? `₹${Number(product.price)}` : 'Contact for price';
+  const t = useT();
+  const navigate = useNavigate();
+  const { language } = useLanguage();
+  const formattedPrice = product.price ? `₹${Number(product.price)}` : t('product.contactForPrice');
+
+  const handleViewDetails = () => {
+    navigate({ to: `/${language}/product/${productId}` as any });
+  };
 
   return (
     <Card className="flex h-full flex-col overflow-hidden transition-shadow hover:shadow-warm">
@@ -29,11 +38,9 @@ export default function ProductCard({ product, productId }: ProductCardProps) {
         <p className="text-lg font-semibold text-primary">{formattedPrice}</p>
       </CardContent>
       <CardFooter>
-        <Link to="/product/$productId" params={{ productId: String(productId) }} className="w-full">
-          <Button className="w-full" variant="default">
-            View Details
-          </Button>
-        </Link>
+        <Button className="w-full" variant="default" onClick={handleViewDetails}>
+          {t('product.viewDetails')}
+        </Button>
       </CardFooter>
     </Card>
   );

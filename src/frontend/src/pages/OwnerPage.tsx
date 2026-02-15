@@ -12,34 +12,36 @@ import { toast } from 'sonner';
 import OwnerGate from '../components/OwnerGate';
 import { useAllOrders, useAllExportInquiries } from '../hooks/useOwnerData';
 import { getOwnerContact, setOwnerContact, isValidEmail, isValidWhatsApp } from '../lib/ownerContact';
+import { useT } from '../i18n/useT';
 
 function OrdersTab() {
   const { data: orders = [], isLoading } = useAllOrders();
+  const t = useT();
 
   if (isLoading) {
-    return <div className="py-8 text-center text-muted-foreground">Loading orders...</div>;
+    return <div className="py-8 text-center text-muted-foreground">{t('owner.orders.loading')}</div>;
   }
 
   if (orders.length === 0) {
-    return <div className="py-8 text-center text-muted-foreground">No orders yet</div>;
+    return <div className="py-8 text-center text-muted-foreground">{t('owner.orders.empty')}</div>;
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>All Orders</CardTitle>
-        <CardDescription>View and manage customer orders</CardDescription>
+        <CardTitle>{t('owner.orders.title')}</CardTitle>
+        <CardDescription>{t('owner.orders.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Order ID</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Items</TableHead>
-              <TableHead>Total</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>{t('owner.orders.orderId')}</TableHead>
+              <TableHead>{t('owner.orders.customer')}</TableHead>
+              <TableHead>{t('owner.orders.items')}</TableHead>
+              <TableHead>{t('owner.orders.total')}</TableHead>
+              <TableHead>{t('owner.orders.status')}</TableHead>
+              <TableHead>{t('owner.orders.date')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -48,7 +50,7 @@ function OrdersTab() {
               <TableRow key={order.orderId.toString()}>
                 <TableCell className="font-mono">{order.orderId.toString()}</TableCell>
                 <TableCell>{order.customerName}</TableCell>
-                <TableCell>{order.items.length} items</TableCell>
+                <TableCell>{order.items.length} {t('owner.orders.items')}</TableCell>
                 <TableCell>₹{Number(order.totalPrice)}</TableCell>
                 <TableCell>
                   <Badge variant={order.status === 'pending' ? 'secondary' : 'default'}>
@@ -65,27 +67,27 @@ function OrdersTab() {
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl">
                       <DialogHeader>
-                        <DialogTitle>Order #{order.orderId.toString()}</DialogTitle>
-                        <DialogDescription>Order details and items</DialogDescription>
+                        <DialogTitle>{t('owner.orderDetail.title')} #{order.orderId.toString()}</DialogTitle>
+                        <DialogDescription>{t('owner.orderDetail.subtitle')}</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div>
-                          <h4 className="mb-2 font-semibold">Customer Information</h4>
+                          <h4 className="mb-2 font-semibold">{t('owner.orderDetail.customerInfo')}</h4>
                           <div className="space-y-1 text-sm">
-                            <p><span className="text-muted-foreground">Name:</span> {order.customerName}</p>
-                            <p><span className="text-muted-foreground">Contact:</span> {order.contactDetails}</p>
-                            <p><span className="text-muted-foreground">Address:</span> {order.shippingAddress}</p>
+                            <p><span className="text-muted-foreground">{t('owner.orderDetail.name')}:</span> {order.customerName}</p>
+                            <p><span className="text-muted-foreground">{t('owner.orderDetail.contact')}:</span> {order.contactDetails}</p>
+                            <p><span className="text-muted-foreground">{t('owner.orderDetail.address')}:</span> {order.shippingAddress}</p>
                           </div>
                         </div>
                         <div>
-                          <h4 className="mb-2 font-semibold">Order Items</h4>
+                          <h4 className="mb-2 font-semibold">{t('owner.orderDetail.orderItems')}</h4>
                           <Table>
                             <TableHeader>
                               <TableRow>
-                                <TableHead>Product</TableHead>
-                                <TableHead>Quantity</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead>Total</TableHead>
+                                <TableHead>{t('owner.orderDetail.product')}</TableHead>
+                                <TableHead>{t('owner.orderDetail.quantity')}</TableHead>
+                                <TableHead>{t('owner.orderDetail.price')}</TableHead>
+                                <TableHead>{t('owner.orderDetail.total')}</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -105,7 +107,7 @@ function OrdersTab() {
                           </Table>
                         </div>
                         <div className="flex justify-between border-t pt-4 text-lg font-semibold">
-                          <span>Total:</span>
+                          <span>{t('owner.orderDetail.total')}:</span>
                           <span>₹{Number(order.totalPrice)}</span>
                         </div>
                       </div>
@@ -123,30 +125,31 @@ function OrdersTab() {
 
 function InquiriesTab() {
   const { data: inquiries = [], isLoading } = useAllExportInquiries();
+  const t = useT();
 
   if (isLoading) {
-    return <div className="py-8 text-center text-muted-foreground">Loading inquiries...</div>;
+    return <div className="py-8 text-center text-muted-foreground">{t('owner.inquiries.loading')}</div>;
   }
 
   if (inquiries.length === 0) {
-    return <div className="py-8 text-center text-muted-foreground">No inquiries yet</div>;
+    return <div className="py-8 text-center text-muted-foreground">{t('owner.inquiries.empty')}</div>;
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Export Inquiries</CardTitle>
-        <CardDescription>View export inquiry submissions</CardDescription>
+        <CardTitle>{t('owner.inquiries.title')}</CardTitle>
+        <CardDescription>{t('owner.inquiries.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Company</TableHead>
-              <TableHead>Contact</TableHead>
-              <TableHead>Country</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead>{t('owner.inquiries.id')}</TableHead>
+              <TableHead>{t('owner.inquiries.company')}</TableHead>
+              <TableHead>{t('owner.inquiries.contact')}</TableHead>
+              <TableHead>{t('owner.inquiries.country')}</TableHead>
+              <TableHead>{t('owner.inquiries.date')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -165,49 +168,55 @@ function InquiriesTab() {
                         <Eye className="h-4 w-4" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
+                    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                       <DialogHeader>
-                        <DialogTitle>Inquiry #{inquiry.inquiryId.toString()}</DialogTitle>
-                        <DialogDescription>Export inquiry details</DialogDescription>
+                        <DialogTitle>{t('owner.inquiryDetail.title')} #{inquiry.inquiryId.toString()}</DialogTitle>
+                        <DialogDescription>{t('owner.inquiryDetail.subtitle')}</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
-                            <p className="text-sm text-muted-foreground">Company</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.company')}</p>
                             <p className="font-medium">{inquiry.companyName}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-muted-foreground">Contact Person</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.contactPerson')}</p>
                             <p className="font-medium">{inquiry.contactPerson}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-muted-foreground">Email</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.email')}</p>
                             <p className="font-medium">{inquiry.email}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-muted-foreground">Phone</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.phone')}</p>
                             <p className="font-medium">{inquiry.phone}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-muted-foreground">Destination</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.destination')}</p>
                             <p className="font-medium">{inquiry.destinationCountry}</p>
                           </div>
                           <div>
-                            <p className="text-sm text-muted-foreground">Estimated Quantity</p>
-                            <p className="font-medium">{inquiry.estimatedQuantity || 'Not specified'}</p>
+                            <p className="text-sm text-muted-foreground">{t('owner.inquiryDetail.quantity')}</p>
+                            <p className="font-medium">{inquiry.estimatedQuantity || t('owner.inquiryDetail.notSpecified')}</p>
                           </div>
                         </div>
                         <div>
-                          <p className="mb-2 text-sm text-muted-foreground">Products of Interest</p>
+                          <p className="mb-2 text-sm text-muted-foreground">{t('owner.inquiryDetail.products')}</p>
                           <div className="flex flex-wrap gap-2">
                             {inquiry.productsOfInterest.map((product, idx) => (
                               <Badge key={idx} variant="secondary">{product}</Badge>
                             ))}
                           </div>
                         </div>
+                        {inquiry.englishTranslation && (
+                          <div>
+                            <p className="mb-2 text-sm font-semibold text-foreground">{t('owner.inquiryDetail.englishTranslation')}</p>
+                            <p className="rounded-lg bg-primary/5 p-3 text-sm border border-primary/20">{inquiry.englishTranslation}</p>
+                          </div>
+                        )}
                         {inquiry.message && (
                           <div>
-                            <p className="mb-2 text-sm text-muted-foreground">Message</p>
+                            <p className="mb-2 text-sm text-muted-foreground">{t('owner.inquiryDetail.originalMessage')}</p>
                             <p className="rounded-lg bg-muted/50 p-3 text-sm">{inquiry.message}</p>
                           </div>
                         )}
@@ -229,20 +238,21 @@ function ContactDetailsTab() {
   const [email, setEmail] = useState(currentContact.email);
   const [whatsapp, setWhatsapp] = useState(currentContact.whatsapp);
   const [errors, setErrors] = useState<{ email?: string; whatsapp?: string }>({});
+  const t = useT();
 
   const handleSave = () => {
     const newErrors: { email?: string; whatsapp?: string } = {};
 
     // Validate email if provided
     if (email && !isValidEmail(email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('owner.contact.invalidEmail');
     }
 
     // Validate WhatsApp (required, must contain at least one digit)
     if (!whatsapp) {
-      newErrors.whatsapp = 'WhatsApp number is required';
+      newErrors.whatsapp = t('owner.contact.whatsappRequired');
     } else if (!isValidWhatsApp(whatsapp)) {
-      newErrors.whatsapp = 'WhatsApp number must contain at least one digit';
+      newErrors.whatsapp = t('owner.contact.whatsappInvalid');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -253,27 +263,27 @@ function ContactDetailsTab() {
     try {
       setOwnerContact(email, whatsapp);
       setErrors({});
-      toast.success('Contact details saved successfully');
+      toast.success(t('owner.contact.saveSuccess'));
     } catch (error) {
-      toast.error('Failed to save contact details');
+      toast.error(t('owner.contact.saveError'));
     }
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Contact Details</CardTitle>
+        <CardTitle>{t('owner.contact.title')}</CardTitle>
         <CardDescription>
-          Update your email and WhatsApp number displayed on the website
+          {t('owner.contact.subtitle')}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="email">{t('owner.contact.email')}</Label>
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder={t('owner.contact.emailPlaceholder')}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -284,16 +294,16 @@ function ContactDetailsTab() {
             <p className="text-sm text-destructive">{errors.email}</p>
           )}
           <p className="text-sm text-muted-foreground">
-            Optional. Will be displayed on the homepage contact section.
+            {t('owner.contact.emailHelp')}
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="whatsapp">WhatsApp Number</Label>
+          <Label htmlFor="whatsapp">{t('owner.contact.whatsapp')}</Label>
           <Input
             id="whatsapp"
             type="text"
-            placeholder="+91 98765 43210"
+            placeholder={t('owner.contact.whatsappPlaceholder')}
             value={whatsapp}
             onChange={(e) => {
               setWhatsapp(e.target.value);
@@ -304,12 +314,12 @@ function ContactDetailsTab() {
             <p className="text-sm text-destructive">{errors.whatsapp}</p>
           )}
           <p className="text-sm text-muted-foreground">
-            Include country code (e.g., +91 for India). Displayed in header, footer, and contact sections.
+            {t('owner.contact.whatsappHelp')}
           </p>
         </div>
 
         <Button onClick={handleSave}>
-          Save Contact Details
+          {t('owner.contact.save')}
         </Button>
       </CardContent>
     </Card>
@@ -317,19 +327,21 @@ function ContactDetailsTab() {
 }
 
 export default function OwnerPage() {
+  const t = useT();
+  
   return (
     <OwnerGate>
       <div className="container-custom py-12">
         <div className="mb-8">
-          <h1 className="mb-2 font-display text-4xl font-bold">Owner Dashboard</h1>
-          <p className="text-lg text-muted-foreground">Manage orders, inquiries, and contact details</p>
+          <h1 className="mb-2 font-display text-4xl font-bold">{t('owner.title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('owner.subtitle')}</p>
         </div>
 
         <Tabs defaultValue="orders">
           <TabsList>
-            <TabsTrigger value="orders">Orders</TabsTrigger>
-            <TabsTrigger value="inquiries">Export Inquiries</TabsTrigger>
-            <TabsTrigger value="contact">Contact Details</TabsTrigger>
+            <TabsTrigger value="orders">{t('owner.tabOrders')}</TabsTrigger>
+            <TabsTrigger value="inquiries">{t('owner.tabInquiries')}</TabsTrigger>
+            <TabsTrigger value="contact">{t('owner.tabContact')}</TabsTrigger>
           </TabsList>
           <TabsContent value="orders" className="mt-6">
             <OrdersTab />

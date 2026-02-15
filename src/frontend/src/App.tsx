@@ -1,9 +1,12 @@
-import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
+import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet, redirect } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider } from 'next-themes';
 import { CartProvider } from './context/CartContext';
+import { LanguageProvider } from './i18n/LanguageProvider';
 import { useActor } from './hooks/useActor';
+import { parseLanguageFromPath, addLanguagePrefix } from './lib/i18nRouting';
+import { isValidLanguage, DEFAULT_LANGUAGE } from './lib/language';
 import SiteLayout from './components/SiteLayout';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
@@ -34,63 +37,91 @@ const rootRoute = createRootRoute({
   component: RootComponent
 });
 
-const indexRoute = createRoute({
+// Redirect handler for non-prefixed routes
+const redirectRoute = createRoute({
   getParentRoute: () => rootRoute,
+  path: '/',
+  beforeLoad: ({ location }) => {
+    const lang = parseLanguageFromPath(location.pathname);
+    if (!lang) {
+      // No language prefix, redirect to default language
+      throw redirect({ to: addLanguagePrefix('/', DEFAULT_LANGUAGE) as any });
+    }
+  },
+  component: () => null
+});
+
+// Language-prefixed routes
+const langRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '$lang',
+  beforeLoad: ({ params }) => {
+    if (!isValidLanguage(params.lang)) {
+      throw redirect({ to: addLanguagePrefix('/', DEFAULT_LANGUAGE) as any });
+    }
+  }
+});
+
+const indexRoute = createRoute({
+  getParentRoute: () => langRoute,
   path: '/',
   component: HomePage
 });
 
 const shopRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/shop',
+  getParentRoute: () => langRoute,
+  path: 'shop',
   component: ShopPage
 });
 
 const productRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/product/$productId',
+  getParentRoute: () => langRoute,
+  path: 'product/$productId',
   component: ProductDetailPage
 });
 
 const cartRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/cart',
+  getParentRoute: () => langRoute,
+  path: 'cart',
   component: CartPage
 });
 
 const checkoutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/checkout',
+  getParentRoute: () => langRoute,
+  path: 'checkout',
   component: CheckoutPage
 });
 
 const orderConfirmationRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/order-confirmation',
+  getParentRoute: () => langRoute,
+  path: 'order-confirmation',
   component: OrderConfirmationPage
 });
 
 const exportInquiryRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/export-inquiry',
+  getParentRoute: () => langRoute,
+  path: 'export-inquiry',
   component: ExportInquiryPage
 });
 
 const ownerRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/owner',
+  getParentRoute: () => langRoute,
+  path: 'owner',
   component: OwnerPage
 });
 
 const routeTree = rootRoute.addChildren([
-  indexRoute,
-  shopRoute,
-  productRoute,
-  cartRoute,
-  checkoutRoute,
-  orderConfirmationRoute,
-  exportInquiryRoute,
-  ownerRoute
+  redirectRoute,
+  langRoute.addChildren([
+    indexRoute,
+    shopRoute,
+    productRoute,
+    cartRoute,
+    checkoutRoute,
+    orderConfirmationRoute,
+    exportInquiryRoute,
+    ownerRoute
+  ])
 ]);
 
 const router = createRouter({ routeTree });
@@ -104,10 +135,12 @@ declare module '@tanstack/react-router' {
 export default function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-      <CartProvider>
-        <RouterProvider router={router} />
-        <Toaster />
-      </CartProvider>
+      <LanguageProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+          <Toaster />
+        </CartProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

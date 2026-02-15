@@ -1,15 +1,25 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
-  "summary": "Premium, export-focused eCommerce website for Twin Roots Foods (twinrootsfoods.com), an Indian agricultural export brand selling spices, dry fruits, and dehydrated powders to international and wholesale buyers, with a natural earthy visual identity and farm-to-global story.",
+  "projectStateVersion": 21,
+  "summary": "Premium, export-focused multilingual eCommerce website for Twin Roots Foods (twinrootsfoods.com), with geo-IP language auto-detection, SEO-friendly language routes, dynamic site translation, and inquiry translation to English for owner review (email sending not available).",
   "architectural_notes": [
-    "Expose site contact details (email + WhatsApp number) as configurable values (e.g., in a config file/env or a simple owner-mode editable setting) and use consistently in Contact section/WhatsApp button."
+    "Expose site contact details (email + WhatsApp number) as configurable values (e.g., in a config file/env or a simple owner-mode editable setting) and use consistently in Contact section/WhatsApp button.",
+    "Domain twinrootsfoods.com DNS is managed in Zoho; domain connection will be done via Zoho DNS records (A records for root/@ and www, plus CNAME/wildcard as needed).",
+    "Multilingual implementation should use SEO-friendly language-prefixed routes (/en/, /ar/, /de/, /fr/, /es/, /ja/, /ru/) and a header language selector; default language can be chosen via geo-IP country detection.",
+    "Use a high-quality translation provider (DeepL preferred for JA/RU) to translate UI strings and inquiry messages; store both original and English-translated inquiry content for owner review.",
+    "Fix multilingual context wiring: ensure LanguageProvider wraps the Home page (and ideally the whole routed app) so useLanguage is never called outside the provider.",
+    "Implement logo bounce animation for both header and footer logos, triggered on initial page load and on route transitions (navigate away/enter) in the SPA."
   ],
   "known_issues": [
     "Images shown for 'Dry Fruits' and 'Dehydrated Powders' sections/categories do not match the intended pictures.",
-    "Farmer/harvest image on the homepage does not match the intended farmer picture."
+    "Farmer/harvest image on the homepage does not match the intended farmer picture.",
+    "Deployment/build status: Version 6 reported as \"still in progress\"; user requested to continue the build.",
+    "Platform constraint: automatic outbound emailing is disabled/unavailable, so translated inquiry emails to the owner cannot be sent; translated content must be stored for viewing in Owner Dashboard instead.",
+    "Home page renders blank due to runtime error: \"useLanguage must be used within LanguageProvider\" (LanguageProvider/context not applied correctly).",
+    "Logo in preview is not similar to the user-provided reference; needs regeneration and site-wide update with tagline \"Rooted in Purity\"."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- Detailed circular spice/ingredient line-art emblem in an earthy palette with integrated brand text “Twin Roots Foods” and curved tagline “Rooted in Purity” (logo-v5.dim_512x512.png)",
   "existing_features": [
     {
       "id": "feature-create-an-initial-product-catalog-containing-the-user-provided-items-and-categories-spices-turmeric-powder-dhaniya-coriander-powder-chili-powder-powders-onion-powder-ginger-powder-garlic-powder-tomato-powder-moringa-powder-and-dry-fruits-generic-category-dry-fruits-that-can-contain-multiple-items-each-product-must-have-at-least-name-category-short-description-and-an-optional-price-for-items-that-are-sold-online",
@@ -178,6 +188,150 @@
         "REQ-21"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-remove-avoid-the-exact-phrase-100-natural-from-all-user-facing-copy-in-the-site-specifically-update-the-home-page-why-choose-us-card-that-currently-uses-the-title-100-natural-to-use-alternative-english-wording-that-does-not-include-100-natural-while-keeping-the-intent-no-chemicals-preservatives-artificial-additives",
+      "title": "Remove/avoid the exact phrase \"100% natural\" from all user-facing copy in the site. Specifically update the Home page “Why Choose Us” card that currently uses the title \"100% Natural\" to use alternative English wording that does not include \"100% natural\" while keeping the intent (no chemicals/preservatives/artificial additives).",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-all-whatsapp-entry-points-in-the-ui-to-use-the-whatsapp-logo-icon-only-replace-the-current-generic-message-chat-icon-apply-this-consistently-in-the-site-header-whatsapp-icon-button-the-home-page-contact-section-whatsapp-button-and-whatsapp-line-item-and-the-site-footer-whatsapp-link",
+      "title": "Update all WhatsApp entry points in the UI to use the WhatsApp logo icon only (replace the current generic message/chat icon). Apply this consistently in the Site Header WhatsApp icon button, the Home page Contact section WhatsApp button and WhatsApp line item, and the Site Footer WhatsApp link.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-site-branding-to-include-the-logo-tagline-exactly-rooted-in-purity-and-render-it-alongside-the-brand-name-in-the-site-header-brand-block-next-to-the-logo",
+      "title": "Update the site branding to include the logo tagline exactly: \"Rooted in Purity\" and render it alongside the brand name in the Site Header brand block (next to the logo).",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-logo-tagline-exactly-rooted-in-purity-to-the-site-footer-branding-area-near-twin-roots-foods-so-the-tagline-is-consistently-visible-across-the-site",
+      "title": "Add the logo tagline exactly: \"Rooted in Purity\" to the Site Footer branding area near \"Twin Roots Foods\" so the tagline is consistently visible across the site.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-an-improved-premium-quality-twin-roots-foods-logo-asset-earthy-export-grade-feel-and-update-the-ui-to-use-the-new-logo-image-file-instead-of-the-current-generated-logo",
+      "title": "Generate an improved, premium-quality Twin Roots Foods logo asset (earthy, export-grade feel) and update the UI to use the new logo image file instead of the current generated logo.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-visitor-country-detection-using-ip-based-geolocation-and-derive-a-default-site-language-from-the-mapping-usa-en-uae-ar-germany-de-france-fr-spain-es-japan-ja-russia-ru-if-geolocation-fails-or-the-country-is-not-mapped-default-to-english-en",
+      "title": "Implement visitor country detection using IP-based geolocation and derive a default site language from the mapping: USA→en, UAE→ar, Germany→de, France→fr, Spain→es, Japan→ja, Russia→ru. If geolocation fails or the country is not mapped, default to English (en).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-seo-friendly-multilingual-url-prefixes-and-routing-so-the-same-pages-are-accessible-under-en-ar-de-fr-es-ja-ru-including-deep-links-like-product-pages-cart-checkout-export-inquiry-and-owner-page-visiting-a-non-prefixed-route-should-redirect-to-the-appropriate-prefixed-route-based-on-detected-language-req-27-or-the-user-s-last-manual-selection",
+      "title": "Add SEO-friendly multilingual URL prefixes and routing so the same pages are accessible under: /en/, /ar/, /de/, /fr/, /es/, /ja/, /ru/ (including deep links like product pages, cart, checkout, export inquiry, and owner page). Visiting a non-prefixed route should redirect to the appropriate prefixed route based on detected language (REQ-27) or the user’s last manual selection.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-manual-language-selector-dropdown-in-the-site-header-that-allows-switching-between-english-arabic-german-french-spanish-japanese-russian-switching-language-must-update-the-current-url-prefix-and-persist-the-preference-for-future-visits",
+      "title": "Add a manual language selector dropdown in the site header that allows switching between: English, Arabic, German, French, Spanish, Japanese, Russian. Switching language must update the current URL prefix and persist the preference for future visits.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-translate-all-visible-website-content-dynamically-based-on-the-active-language-including-navigation-labels-page-headings-product-list-detail-labels-buttons-forms-validation-error-messages-toasts-and-footer-content-arabic-ar-must-render-with-correct-rtl-direction-and-appropriate-text-alignment-for-core-layout-elements",
+      "title": "Translate all visible website content dynamically based on the active language (including navigation labels, page headings, product list/detail labels, buttons, forms, validation/error messages, toasts, and footer content). Arabic (ar) must render with correct RTL direction and appropriate text alignment for core layout elements.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-integrate-a-high-quality-translation-provider-deepl-preferred-especially-for-japanese-and-russian-to-support-dynamic-ui-translation-and-inquiry-message-translation-implement-caching-so-repeated-translations-same-source-text-target-language-do-not-cause-repeated-network-calls-during-a-session-and-do-not-significantly-degrade-performance",
+      "title": "Integrate a high-quality translation provider (DeepL preferred, especially for Japanese and Russian) to support dynamic UI translation and inquiry message translation. Implement caching so repeated translations (same source text + target language) do not cause repeated network calls during a session and do not significantly degrade performance.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-a-user-submits-an-export-inquiry-in-any-language-automatically-produce-an-english-translation-of-the-inquiry-message-store-both-the-original-message-and-the-english-translation-in-the-backend-and-display-both-versions-together-in-the-owner-dashboard-inquiry-detail-view-do-not-send-emails",
+      "title": "When a user submits an export inquiry in any language, automatically produce an English translation of the inquiry message, store both the original message and the English translation in the backend, and display both versions together in the Owner Dashboard inquiry detail view. (Do not send emails.)",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-twin-roots-foods-logo-to-match-the-style-of-the-user-provided-reference-circular-spice-ingredient-line-art-emblem-earthy-palette-premium-export-grade-look-while-keeping-the-brand-name-twin-roots-foods-and-tagline-text-exactly-rooted-in-purity-and-update-the-ui-to-use-the-new-logo-asset-in-the-site-header-and-anywhere-else-the-current-logo-v2-is-used",
+      "title": "Update the Twin Roots Foods logo to match the style of the user-provided reference (circular spice/ingredient line-art emblem, earthy palette, premium export-grade look) while keeping the brand name “Twin Roots Foods” and tagline text exactly “Rooted in Purity”, and update the UI to use the new logo asset in the site header (and anywhere else the current logo-v2 is used).",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-runtime-error-causing-a-blank-home-page-uselanguage-must-be-used-within-languageprovider-ensure-the-react-tree-that-renders-routed-pages-home-shop-product-detail-cart-checkout-export-inquiry-owner-is-always-wrapped-in-the-languageprovider-so-any-component-calling-uselanguage-e-g-homepage-siteheader-sitefooter-languageselector-cannot-crash",
+      "title": "Fix the runtime error causing a blank Home page: \"useLanguage must be used within LanguageProvider\". Ensure the React tree that renders routed pages (Home, Shop, Product Detail, Cart, Checkout, Export Inquiry, Owner) is always wrapped in the LanguageProvider so any component calling useLanguage() (e.g., HomePage, SiteHeader, SiteFooter, LanguageSelector) cannot crash.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-regenerate-a-premium-twin-roots-foods-logo-that-closely-matches-the-user-attached-logo-sample-style-central-spice-ingredient-line-art-illustration-with-earthy-palette-clean-premium-vector-like-strokes-and-curved-tagline-text-reading-rooted-in-purity-exact-words-export-the-updated-logo-as-a-static-png-asset-and-update-the-ui-to-use-the-new-logo-everywhere-the-current-generated-logo-is-referenced-at-minimum-site-header-brand-logo-image-and-any-other-current-logo-v3-usages",
+      "title": "Regenerate a premium Twin Roots Foods logo that closely matches the user-attached logo sample style: central spice/ingredient line-art illustration with earthy palette, clean premium vector-like strokes, and curved tagline text reading \"Rooted in Purity\" (exact words). Export the updated logo as a static PNG asset and update the UI to use the new logo everywhere the current generated logo is referenced (at minimum: Site Header brand logo image, and any other current logo-v3 usages).",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-a-new-twin-roots-foods-logo-png-that-is-different-but-visually-similar-to-the-user-uploaded-reference-image-3-png-keep-a-circular-layout-spice-ingredient-line-art-elements-earthy-color-palette-and-include-the-exact-text-twin-roots-foods-and-curved-tagline-text-rooted-in-purity-but-make-the-overall-emblem-more-detailed-save-it-as-a-static-asset-under-frontend-public-assets-generated-and-do-not-serve-it-via-the-backend",
+      "title": "Generate a new Twin Roots Foods logo PNG that is different but visually similar to the user-uploaded reference (image-3.png): keep a circular layout, spice/ingredient line-art elements, earthy color palette, and include the exact text “Twin Roots Foods” and curved tagline text “Rooted in Purity”, but make the overall emblem more detailed. Save it as a static asset under frontend/public/assets/generated/ and do not serve it via the backend.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-site-header-logo-image-to-use-the-newly-generated-logo-asset-instead-of-the-current-assets-generated-logo-v4-dim-512x512-png",
+      "title": "Update the site header logo image to use the newly generated logo asset instead of the current /assets/generated/logo-v4.dim_512x512.png.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-footer-logo-image-using-the-same-newly-generated-logo-asset-in-the-footer-branding-area-near-the-twin-roots-foods-text-so-the-footer-has-a-logo-to-animate-as-requested",
+      "title": "Add a footer logo image (using the same newly generated logo asset) in the footer branding area near the “Twin Roots Foods” text so the footer has a logo to animate as requested.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-noticeable-bounce-animation-for-the-logo-on-both-the-header-and-footer-the-bounce-must-play-when-the-user-visits-loads-a-page-and-also-when-navigating-between-internal-pages-i-e-on-route-changes",
+      "title": "Implement a noticeable bounce animation for the logo on both the header and footer: the bounce must play when the user visits/loads a page and also when navigating between internal pages (i.e., on route changes).",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -226,6 +380,66 @@
     {
       "id": "AR-8",
       "summary": "Allow site owner to set/update their contact email and WhatsApp number (used in Contact section and WhatsApp button/link)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Remove/avoid the phrase \"100% natural\" in site copy",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Update WhatsApp contact entry point to use WhatsApp logo only (no extra icons/graphics)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Update/generate a high-quality logo and set the logo tagline to exactly: \"Rooted in Purity\"",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Add geo-IP visitor country detection and auto-switch site language (USA/en, UAE/ar, DE/de, FR/fr, ES/es, JP/ja, RU/ru) with a manual language selector in the header",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Implement full-site multilingual support: dynamically translate all visible website content (nav, product pages, buttons, forms, footer) and maintain fast mobile performance",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Add SEO-friendly multilingual URL structure with language prefixes (/en/, /ar/, /de/, /fr/, /es/, /ja/, /ru/)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "On inquiry form submit: store original message plus an English translation (auto-translate) for owner review; include both versions together",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "Integrate a high-quality translation API (DeepL preferred for Japanese and Russian) for dynamic UI translation and inquiry translation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Update/generate a logo similar to the user-provided reference and use it on the site (keep tagline \"Rooted in Purity\")",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Add noticeable bounce animation to the Twin Roots Foods logo on page enter and on internal page navigation (exit), applied to both header and footer logos",
       "reqIds": [],
       "status": "pending"
     }

@@ -5,133 +5,122 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useCart } from '../context/CartContext';
-import { usePlaceOrder } from '../hooks/useOrders';
-import { calculateTotal } from '../lib/cart';
 import { toast } from 'sonner';
-import type { OrderItem } from '../backend';
+import { useCart } from '../context/CartContext';
+import { getCartItemCount, calculateTotal } from '../lib/cart';
+import { usePlaceOrder } from '../hooks/useOrders';
+import { useT } from '../i18n/useT';
+import { useLanguage } from '../i18n/LanguageProvider';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { cart, clearCart } = useCart();
   const placeOrderMutation = usePlaceOrder();
+  const itemCount = getCartItemCount(cart);
   const total = calculateTotal(cart);
+  const t = useT();
+  const { language } = useLanguage();
 
   const [formData, setFormData] = useState({
-    customerName: '',
-    email: '',
-    phone: '',
-    address: '',
+    fullName: '',
+    contactDetails: '',
+    shippingAddress: '',
     notes: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.customerName || !formData.address || (!formData.email && !formData.phone)) {
-      toast.error('Please fill in all required fields');
+    if (!formData.fullName || !formData.contactDetails || !formData.shippingAddress) {
+      toast.error(t('checkout.fillRequired'));
       return;
     }
 
-    const contactDetails = [formData.email, formData.phone].filter(Boolean).join(', ');
-    const items: OrderItem[] = cart.map(item => ({
-      productId: BigInt(item.productId),
-      name: item.name,
-      unitPrice: item.unitPrice !== null ? BigInt(item.unitPrice) : undefined,
-      quantity: BigInt(item.quantity)
-    }));
-
     try {
       const orderId = await placeOrderMutation.mutateAsync({
-        customerName: formData.customerName,
-        contactDetails,
-        shippingAddress: formData.address + (formData.notes ? `\n\nNotes: ${formData.notes}` : ''),
-        items
+        customerName: formData.fullName,
+        contactDetails: formData.contactDetails,
+        shippingAddress: formData.shippingAddress,
+        items: cart.map(item => ({
+          productId: BigInt(item.productId),
+          name: item.name,
+          unitPrice: item.unitPrice !== null ? BigInt(item.unitPrice) : undefined,
+          quantity: BigInt(item.quantity)
+        }))
       });
 
       clearCart();
-      toast.success('Order placed successfully!');
-      navigate({ to: '/order-confirmation', search: { orderId: orderId.toString() } });
+      toast.success(t('checkout.success'));
+      navigate({ to: `/${language}/order-confirmation` as any, search: { orderId: orderId.toString() } as any });
     } catch (error) {
-      toast.error('Failed to place order. Please try again.');
+      toast.error(t('checkout.error'));
       console.error(error);
     }
   };
 
-  if (cart.length === 0) {
-    navigate({ to: '/cart' });
+  if (itemCount === 0) {
+    navigate({ to: `/${language}/cart` as any });
     return null;
   }
 
   return (
     <div className="container-custom py-12">
-      <h1 className="mb-8 font-display text-4xl font-bold">Checkout</h1>
+      <h1 className="mb-8 font-display text-4xl font-bold">{t('checkout.title')}</h1>
 
       <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Shipping Information</CardTitle>
-              <CardDescription>Please provide your contact and delivery details</CardDescription>
+              <CardTitle>{t('checkout.customerInfo')}</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <Label htmlFor="customerName">Full Name *</Label>
+                  <Label htmlFor="fullName">{t('checkout.fullName')} *</Label>
                   <Input
-                    id="customerName"
-                    value={formData.customerName}
-                    onChange={e => setFormData({ ...formData, customerName: e.target.value })}
+                    id="fullName"
+                    value={formData.fullName}
+                    onChange={e => setFormData({ ...formData, fullName: e.target.value })}
                     required
                   />
                 </div>
 
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={e => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="phone">Phone *</Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                      required
-                    />
-                  </div>
+                <div>
+                  <Label htmlFor="contactDetails">{t('checkout.contactDetails')} *</Label>
+                  <Input
+                    id="contactDetails"
+                    value={formData.contactDetails}
+                    onChange={e => setFormData({ ...formData, contactDetails: e.target.value })}
+                    placeholder={t('checkout.contactPlaceholder')}
+                    required
+                  />
                 </div>
 
                 <div>
-                  <Label htmlFor="address">Shipping Address *</Label>
+                  <Label htmlFor="shippingAddress">{t('checkout.shippingAddress')} *</Label>
                   <Textarea
-                    id="address"
-                    value={formData.address}
-                    onChange={e => setFormData({ ...formData, address: e.target.value })}
+                    id="shippingAddress"
+                    value={formData.shippingAddress}
+                    onChange={e => setFormData({ ...formData, shippingAddress: e.target.value })}
+                    placeholder={t('checkout.addressPlaceholder')}
                     rows={3}
                     required
                   />
                 </div>
 
                 <div>
-                  <Label htmlFor="notes">Order Notes (Optional)</Label>
+                  <Label htmlFor="notes">{t('checkout.notes')}</Label>
                   <Textarea
                     id="notes"
                     value={formData.notes}
                     onChange={e => setFormData({ ...formData, notes: e.target.value })}
-                    rows={2}
-                    placeholder="Any special instructions..."
+                    placeholder={t('checkout.notesPlaceholder')}
+                    rows={3}
                   />
                 </div>
 
-                <Button type="submit" size="lg" className="w-full" disabled={placeOrderMutation.isPending}>
-                  {placeOrderMutation.isPending ? 'Processing...' : 'Place Order'}
+                <Button type="submit" className="w-full" size="lg" disabled={placeOrderMutation.isPending}>
+                  {placeOrderMutation.isPending ? t('checkout.placing') : t('checkout.placeOrder')}
                 </Button>
               </form>
             </CardContent>
@@ -141,23 +130,22 @@ export default function CheckoutPage() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle>{t('checkout.orderSummary')}</CardTitle>
+              <CardDescription>{itemCount} {t('checkout.items')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 {cart.map(item => (
                   <div key={item.productId} className="flex justify-between text-sm">
-                    <span>
-                      {item.name} × {item.quantity}
-                    </span>
+                    <span>{item.name} × {item.quantity}</span>
                     <span>{item.unitPrice !== null ? `₹${item.unitPrice * item.quantity}` : '-'}</span>
                   </div>
                 ))}
               </div>
               <div className="border-t pt-4">
-                <div className="flex justify-between text-xl font-bold">
-                  <span>Total:</span>
-                  <span className="text-primary">₹{total}</span>
+                <div className="flex justify-between text-lg font-semibold">
+                  <span>{t('checkout.total')}:</span>
+                  <span>₹{total}</span>
                 </div>
               </div>
             </CardContent>

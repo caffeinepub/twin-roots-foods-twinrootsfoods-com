@@ -5,10 +5,48 @@ import Runtime "mo:core/Runtime";
 import Time "mo:core/Time";
 import Iter "mo:core/Iter";
 import Order "mo:core/Order";
+import Principal "mo:core/Principal";
 
+import MixinAuthorization "authorization/MixinAuthorization";
+import AccessControl "authorization/access-control";
 
 
 actor {
+  // Initialize the access control system
+  let accessControlState = AccessControl.initState();
+  include MixinAuthorization(accessControlState);
+
+  // User profile type
+  public type UserProfile = {
+    name : Text;
+    email : ?Text;
+    role : Text; // For display purposes
+  };
+
+  let userProfiles = Map.empty<Principal, UserProfile>();
+
+  // User profile management
+  public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can access profiles");
+    };
+    userProfiles.get(caller);
+  };
+
+  public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
+    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Can only view your own profile");
+    };
+    userProfiles.get(user);
+  };
+
+  public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can save profiles");
+    };
+    userProfiles.add(caller, profile);
+  };
+
   type Product = {
     name : Text;
     category : Text;
@@ -64,6 +102,7 @@ actor {
     estimatedQuantity : Text;
     message : Text;
     submittedAt : Time.Time;
+    englishTranslation : ?Text;
   };
 
   // Persistent state
@@ -166,7 +205,7 @@ actor {
     };
   };
 
-  // Public queries
+  // Public queries - No authorization needed (public catalog)
   public query ({ caller }) func getProducts() : async [Product] {
     products.values().toArray().sort();
   };
@@ -193,8 +232,7 @@ actor {
     categoriesSet.keys().toArray();
   };
 
-  // Order placement
-
+  // Order placement - Public (any customer can place orders)
   public shared ({ caller }) func placeOrder(
     customerName : Text,
     contactDetails : Text,
@@ -227,8 +265,7 @@ actor {
     order.orderId;
   };
 
-  // Export inquiry submission
-
+  // Export inquiry submission - Public (any potential customer can submit)
   public shared ({ caller }) func submitExportInquiry(
     companyName : Text,
     contactPerson : Text,
@@ -237,7 +274,8 @@ actor {
     destinationCountry : Text,
     productsOfInterest : [Text],
     estimatedQuantity : Text,
-    message : Text
+    message : Text,
+    englishTranslation : ?Text
   ) : async Nat {
     let inquiry : ExportInquiry = {
       inquiryId = nextInquiryId;
@@ -250,6 +288,7 @@ actor {
       estimatedQuantity;
       message;
       submittedAt = Time.now();
+      englishTranslation;
     };
 
     exportInquiries.add(nextInquiryId, inquiry);
@@ -257,27 +296,42 @@ actor {
     inquiry.inquiryId;
   };
 
-  // Internal management view
-
+  // Admin-only: View all orders (Owner Dashboard)
   public query ({ caller }) func getAllOrders() : async [Order] {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view all orders");
+    };
     orders.values().toArray();
   };
 
+  // Admin-only: View all export inquiries (Owner Dashboard)
   public query ({ caller }) func getAllExportInquiries() : async [ExportInquiry] {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view all inquiries");
+    };
     exportInquiries.values().toArray();
   };
 
+  // Admin-only: View specific order details
   public query ({ caller }) func getOrderById(orderId : Nat) : async Order {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view order details");
+    };
     switch (orders.get(orderId)) {
       case (null) { Runtime.trap("Order not found") };
       case (?order) { order };
     };
   };
 
+  // Admin-only: View specific inquiry details
   public query ({ caller }) func getExportInquiryById(inquiryId : Nat) : async ExportInquiry {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #admin))) {
+      Runtime.trap("Unauthorized: Only admins can view inquiry details");
+    };
     switch (exportInquiries.get(inquiryId)) {
       case (null) { Runtime.trap("Inquiry not found") };
       case (?inquiry) { inquiry };
     };
   };
 };
+

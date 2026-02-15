@@ -14,7 +14,8 @@ export function useSubmitExportInquiry() {
       destinationCountry,
       productsOfInterest,
       estimatedQuantity,
-      message
+      message,
+      englishTranslation
     }: {
       companyName: string;
       contactPerson: string;
@@ -24,6 +25,7 @@ export function useSubmitExportInquiry() {
       productsOfInterest: string[];
       estimatedQuantity: string;
       message: string;
+      englishTranslation?: string | null;
     }) => {
       if (!actor) throw new Error('Actor not initialized');
       return actor.submitExportInquiry(
@@ -34,7 +36,8 @@ export function useSubmitExportInquiry() {
         destinationCountry,
         productsOfInterest,
         estimatedQuantity,
-        message
+        message,
+        englishTranslation || null
       );
     },
     onSuccess: () => {

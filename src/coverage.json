@@ -1,52 +1,65 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-14T22:03:04.305Z",
+  "generatedAt": "2026-02-15T05:46:28.362Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 3,
-    "implemented": 3,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-19",
-        "summary": "Create a single source of truth on the frontend for the site owner’s contact details (at minimum: contact email and WhatsApp number) that persists in localStorage and provides safe defaults when not set.",
+        "id": "REQ-36",
+        "summary": "Generate a new Twin Roots Foods logo PNG that is different but visually similar to the user-uploaded reference (image-3.png): keep a circular layout, spice/ingredient line-art elements, earthy color palette, and include the exact text “Twin Roots Foods” and curved tagline text “Rooted in Purity”, but make the overall emblem more detailed. Save it as a static asset under frontend/public/assets/generated/ and do not serve it via the backend.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/lib/ownerContact.ts",
-          "frontend/src/hooks/useOwnerContact.ts"
+          "frontend/public/assets/generated/logo-v5.dim_512x512.png"
         ],
         "matchedFiles": [
-          "frontend/src/lib/ownerContact.ts",
-          "frontend/src/hooks/useOwnerContact.ts"
+          "frontend/public/assets/generated/logo-v5.dim_512x512.png"
         ]
       },
       {
-        "id": "REQ-20",
-        "summary": "Add an Owner Dashboard section that allows the owner to view and update the contact email and WhatsApp number, gated by the existing Owner Mode flow.",
+        "id": "REQ-37",
+        "summary": "Update the site header logo image to use the newly generated logo asset instead of the current /assets/generated/logo-v4.dim_512x512.png.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/OwnerPage.tsx"
+          "frontend/src/components/SiteHeader.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/OwnerPage.tsx"
+          "frontend/src/components/SiteHeader.tsx"
         ]
       },
       {
-        "id": "REQ-21",
-        "summary": "Replace hardcoded WhatsApp placeholders in the header, footer, and Home page Contact section so they render and link using the saved owner contact details (email + WhatsApp).",
+        "id": "REQ-38",
+        "summary": "Add a footer logo image (using the same newly generated logo asset) in the footer branding area near the “Twin Roots Foods” text so the footer has a logo to animate as requested.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/SiteHeader.tsx",
-          "frontend/src/components/SiteFooter.tsx",
-          "frontend/src/pages/HomePage.tsx"
+          "frontend/src/components/SiteFooter.tsx"
         ],
         "matchedFiles": [
+          "frontend/src/components/SiteFooter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-39",
+        "summary": "Implement a noticeable bounce animation for the logo on both the header and footer: the bounce must play when the user visits/loads a page and also when navigating between internal pages (i.e., on route changes).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/tailwind.config.js",
+          "frontend/src/hooks/useLogoBounceKey.ts",
+          "frontend/src/components/BrandLogo.tsx",
           "frontend/src/components/SiteHeader.tsx",
-          "frontend/src/components/SiteFooter.tsx",
-          "frontend/src/pages/HomePage.tsx"
+          "frontend/src/components/SiteFooter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/tailwind.config.js",
+          "frontend/src/hooks/useLogoBounceKey.ts",
+          "frontend/src/components/BrandLogo.tsx",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
         ]
       }
     ]
@@ -56,12 +69,12 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/logo-v5.dim_512x512.png",
+    "frontend/src/components/BrandLogo.tsx",
     "frontend/src/components/SiteFooter.tsx",
     "frontend/src/components/SiteHeader.tsx",
-    "frontend/src/hooks/useOwnerContact.ts",
-    "frontend/src/lib/ownerContact.ts",
-    "frontend/src/pages/HomePage.tsx",
-    "frontend/src/pages/OwnerPage.tsx",
+    "frontend/src/hooks/useLogoBounceKey.ts",
+    "frontend/tailwind.config.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

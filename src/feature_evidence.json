@@ -2,59 +2,80 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-create-a-single-source-of-truth-on-the-frontend-for-the-site-owner-s-contact-details-at-minimum-contact-email-and-whatsapp-number-that-persists-in-localstorage-and-provides-safe-defaults-when-not-set",
-      "featureTitle": "Create a single source of truth on the frontend for the site owner’s contact details (at minimum: contact email and WhatsApp number) that persists in localStorage and provides safe defaults when not set.",
+      "featureId": "feature-generate-a-new-twin-roots-foods-logo-png-that-is-different-but-visually-similar-to-the-user-uploaded-reference-image-3-png-keep-a-circular-layout-spice-ingredient-line-art-elements-earthy-color-palette-and-include-the-exact-text-twin-roots-foods-and-curved-tagline-text-rooted-in-purity-but-make-the-overall-emblem-more-detailed-save-it-as-a-static-asset-under-frontend-public-assets-generated-and-do-not-serve-it-via-the-backend",
+      "featureTitle": "Generate a new Twin Roots Foods logo PNG that is different but visually similar to the user-uploaded reference (image-3.png): keep a circular layout, spice/ingredient line-art elements, earthy color palette, and include the exact text “Twin Roots Foods” and curved tagline text “Rooted in Purity”, but make the overall emblem more detailed. Save it as a static asset under frontend/public/assets/generated/ and do not serve it via the backend.",
+      "files": [],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
+      ],
+      "testIds": [
+        "REQ-36"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-site-header-logo-image-to-use-the-newly-generated-logo-asset-instead-of-the-current-assets-generated-logo-v4-dim-512x512-png",
+      "featureTitle": "Update the site header logo image to use the newly generated logo asset instead of the current /assets/generated/logo-v4.dim_512x512.png.",
       "files": [
-        "frontend/src/hooks/useOwnerContact.ts",
-        "frontend/src/lib/ownerContact.ts"
+        "frontend/src/components/SiteHeader.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-19"
+        "REQ-37"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-add-an-owner-dashboard-section-that-allows-the-owner-to-view-and-update-the-contact-email-and-whatsapp-number-gated-by-the-existing-owner-mode-flow",
-      "featureTitle": "Add an Owner Dashboard section that allows the owner to view and update the contact email and WhatsApp number, gated by the existing Owner Mode flow.",
+      "featureId": "feature-add-a-footer-logo-image-using-the-same-newly-generated-logo-asset-in-the-footer-branding-area-near-the-twin-roots-foods-text-so-the-footer-has-a-logo-to-animate-as-requested",
+      "featureTitle": "Add a footer logo image (using the same newly generated logo asset) in the footer branding area near the “Twin Roots Foods” text so the footer has a logo to animate as requested.",
       "files": [
-        "frontend/src/pages/OwnerPage.tsx"
+        "frontend/src/components/SiteFooter.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-20"
+        "REQ-38"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-replace-hardcoded-whatsapp-placeholders-in-the-header-footer-and-home-page-contact-section-so-they-render-and-link-using-the-saved-owner-contact-details-email-whatsapp",
-      "featureTitle": "Replace hardcoded WhatsApp placeholders in the header, footer, and Home page Contact section so they render and link using the saved owner contact details (email + WhatsApp).",
+      "featureId": "feature-implement-a-noticeable-bounce-animation-for-the-logo-on-both-the-header-and-footer-the-bounce-must-play-when-the-user-visits-loads-a-page-and-also-when-navigating-between-internal-pages-i-e-on-route-changes",
+      "featureTitle": "Implement a noticeable bounce animation for the logo on both the header and footer: the bounce must play when the user visits/loads a page and also when navigating between internal pages (i.e., on route changes).",
       "files": [
+        "frontend/src/components/BrandLogo.tsx",
         "frontend/src/components/SiteFooter.tsx",
         "frontend/src/components/SiteHeader.tsx",
-        "frontend/src/pages/HomePage.tsx"
+        "frontend/src/hooks/useLogoBounceKey.ts",
+        "frontend/tailwind.config.js"
       ],
       "components": [
         "core-infrastructure@1.0.2",
         "shadcn-ui@1.0.0",
         "build-template-react@1.0.0",
         "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
+        "github-export-icp-cli@1.0.0",
+        "authorization@4.0.0"
       ],
       "testIds": [
-        "REQ-21"
+        "REQ-39"
       ],
       "confidence": "high"
     }
